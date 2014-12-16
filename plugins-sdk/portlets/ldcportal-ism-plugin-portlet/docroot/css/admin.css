@@ -1,0 +1,29 @@
+.portlet-ism-plugin-admin .lfr-portlet-toolbar .lfr-toolbar-button.refresh-button a
+	{
+	background-image: url(../images/refresh.png);
+}
+
+.portlet-ism-plugin-admin .lfr-portlet-toolbar .lfr-toolbar-button.edit-button a
+	{
+	background-image: url(../images/edit.png);
+}
+
+.portlet-ism-plugin-admin .none {
+	color: red;
+	font-weight: bold;
+}
+
+.portlet-ism-plugin-admin .ok {
+	color: green;
+	font-weight: bold;
+}
+
+.portlet-ism-plugin-admin .more-info-table td {
+	border: 0px;
+	padding: 1px 4px 1px 4px;
+}
+
+.portlet-ism-plugin-admin .more-info-table td div {
+	width: 38px;
+}
+

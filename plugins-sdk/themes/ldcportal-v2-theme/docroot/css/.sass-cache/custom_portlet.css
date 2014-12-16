@@ -1,0 +1,402 @@
+.portlet-journal-content .journal-content-article li {
+  list-style-type: square; }
+
+/* ---------- Asset Publisher ---------- */
+.portlet-asset-publisher .taglib-header {
+  border-bottom-width: 0;
+  margin-bottom: 20px;
+  text-align: left; }
+
+.portlet-asset-publisher .taglib-header .header-back-to {
+  display: none; }
+
+.portlet-asset-publisher .portlet-title, .portlet-blogs .portlet-title {
+  color: black;
+  font-size: 16px;
+  font-weight: normal;
+  margin-top: 5px; }
+
+.portlet-asset-publisher .portlet-title .icon, .portlet-blogs .portlet-title .icon {
+  display: none; }
+
+.portlet-asset-publisher .portlet-content, .portlet-blogs .portlet-content {
+  padding: 0px; }
+
+.portlet-asset-publisher .asset-title {
+  border-bottom: none;
+  font-size: 12px;
+  margin-bottom: 0px;
+  margin-right: 0px;
+  margin-top: 10px; }
+
+.portlet-asset-publisher .asset-title img, .portlet-asset-publisher .title-list img {
+  display: none;
+  position: relative;
+  top: 2px; }
+
+.portlet-asset-publisher .asset-abstract .asset-category {
+  font-size: 10px;
+  font-style: italic; }
+
+.portlet-asset-publisher li.title-list {
+  margin-bottom: 10px; }
+
+.portlet-asset-publisher .title-list .taglib-text {
+  text-decoration: none; }
+
+.portlet-asset-publisher .asset-content {
+  margin-bottom: 15px;
+  margin-left: 0px;
+  margin-right: 0px; }
+
+.portlet-asset-publisher .asset-abstract .asset-content {
+  font-size: 11px; }
+
+.portlet-asset-publisher .asset-more {
+  display: none; }
+
+.portlet-asset-publisher .maximize-portlet {
+  margin-bottom: 5px;
+  text-align: right; }
+
+.js .portlet-asset-publisher .maximize-portlet {
+  bottom: 3px;
+  margin-bottom: 0px;
+  position: absolute;
+  right: 12px; }
+
+.portlet-asset-publisher.right-menu .maximize-portlet {
+  bottom: auto;
+  padding-bottom: 5px;
+  position: relative;
+  right: auto; }
+
+.portlet-asset-publisher.right-menu .maximize-portlet a {
+  font-weight: normal; }
+
+.portlet-asset-publisher .asset-small-image {
+  float: left;
+  padding-left: 0px;
+  padding-right: 10px;
+  width: 191px; }
+
+.portlet-asset-publisher .asset-maximized {
+  margin-bottom: 25px; }
+
+.portlet-asset-publisher .asset-maximized .asset-title {
+  font-size: 13px; }
+
+.portlet-asset-publisher .asset-maximized .asset-content {
+  margin-top: 8px; }
+
+.js .special-un-column .portlet-column-content.portlet-column-content-first .portlet-asset-publisher .maximize-portlet {
+  right: 17px; }
+
+.js .special-un-column .portlet-column-content.portlet-column-content-last .portlet-asset-publisher .maximize-portlet {
+  right: 7px; }
+
+.portlet-asset-publisher .final-separator {
+  margin-bottom: 0px; }
+
+.portlet-asset-publisher .portlet-msg-info {
+  background-image: none;
+  margin-top: 6px;
+  padding-left: 8px; }
+
+.portlet-asset-publisher .add-asset-selector {
+  margin: 0px; }
+
+/* ---------- ISM Search ---------- */
+.portlet-ism-search .filter {
+  background: #ecf7fd url(../images/custom/background_rightmenu.png) no-repeat 0 0;
+  border: 1px solid #C8E9FF;
+  float: right;
+  width: 245px; }
+
+.portlet-ism-search .filter-header {
+  background-color: #39A0E0;
+  color: white;
+  font-size: 14px;
+  height: 25px;
+  text-align: center; }
+
+.portlet-ism-search .filter-content {
+  padding: 0px 15px 7px 15px; }
+
+.portlet-ism-search .filter-header span {
+  vertical-align: middle; }
+
+.portlet-ism-search .aui-button-holder {
+  clear: none;
+  text-align: center; }
+
+.portlet-ism-search .filter .aui-button-input {
+  width: 105px; }
+
+.portlet-ism-search .filter .lfr-panel {
+  margin-top: 15px; }
+
+.portlet-ism-search .filter .lfr-panel-titlebar {
+  background-image: url(../images/custom/minus.png);
+  background-position: right;
+  margin-bottom: 0px;
+  padding-right: 15px;
+  padding-left: 0px; }
+
+.portlet-ism-search .filter .lfr-collapsed .lfr-panel-titlebar {
+  background-image: url(../images/custom/plus.png);
+  margin-bottom: 25px; }
+
+.portlet-ism-search .filter .lfr-panel-title {
+  font-size: 13px; }
+
+.portlet-ism-search .filter .lfr-panel-content {
+  border-bottom: 1px solid #39A0E0;
+  margin-top: 5px;
+  padding-bottom: 20px; }
+
+.portlet-ism-search .filter .aui-field-content {
+  margin-bottom: 3px;
+  margin-top: 2px; }
+
+.portlet-ism-search .filter .lfr-panel-content .aui-field-element.aui-field-label-right input {
+  margin-top: 4px; }
+
+.portlet-ism-search .filter .lfr-panel-content .aui-field-label {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: normal;
+  max-width: 171px; }
+
+.portlet-ism-search .filter .aui-field-input-select {
+  font-size: 11px;
+  width: 190px; }
+
+.portlet-ism-search .search-content {
+  width: 590px; }
+
+.portlet-ism-search .searchbox {
+  background-color: #AFD8ED;
+  border: 1px solid #BFE0F1;
+  padding: 5px; }
+
+.portlet-ism-search .searchbox .aui-button-holder, .portlet-ism-search .searchbox .aui-fieldset {
+  display: inline-block;
+  margin: 0px; }
+
+.portlet-ism-search .searchbox .aui-button-holder {
+  float: right;
+  vertical-align: middle; }
+
+.portlet-ism-search .searchbox .aui-field-input-text {
+  font-size: 12px;
+  padding-left: 5px;
+  width: 425px; }
+
+.portlet-ism-search .searchbox .aui-field-content {
+  margin: 0px; }
+
+.portlet-ism-search .searchbox .aui-button-input-submit {
+  margin-right: 10px;
+  height: 26px;
+  width: 117px; }
+
+.portlet-ism-search .results-content {
+  margin-top: 10px; }
+
+.portlet-ism-search .results-grid, .portlet-ism-search .results-row td {
+  border: 0px;
+  padding-bottom: 15px; }
+
+.portlet-ism-search .results-grid .asset-title {
+  border: 0px;
+  font-size: 13px;
+  font-weight: bold;
+  padding-bottom: 3px; }
+
+.portlet-ism-search .taglib-search-iterator, .portlet-ism-search .taglib-page-iterator {
+  clear: none; }
+
+/* ---------- Message boards ---------- */
+.portlet-message-boards .top-links-container {
+  margin-bottom: 10px; }
+
+.portlet-message-boards .top-links {
+  float: none; }
+
+.portlet-message-boards .top-links .top-links-navigation {
+  margin-top: 4px; }
+
+.portlet-message-boards .category-search .aui-field-input-text {
+  width: 100px; }
+
+.portlet-message-boards .opens-new-window-accessible {
+  display: none; }
+
+.portlet-message-boards .thread-navigation {
+  display: none; }
+
+.portlet-message-boards .thread-controls {
+  border: 0px;
+  margin-top: 5px;
+  padding-top: 3px;
+  padding-left: 10px;
+  height: 18px; }
+
+.portlet-message-boards .thread-title {
+  color: white;
+  display: inline;
+  font-weight: bold;
+  margin-top: 2px; }
+
+.portlet-message-boards .message-container {
+  border-color: #B6BED4; }
+
+.portlet-message-boards .message-container .user-info {
+  border-right-color: #F3F5F5;
+  font-size: 11px;
+  padding-left: 10px;
+  padding-top: 10px;
+  width: 130px; }
+
+.portlet-message-boards .message-container .results-row.alt .user-info {
+  border-right-color: #F3F4F5;
+  padding-top: 10px; }
+
+.portlet-message-boards .lfr-top {
+  padding-top: 8px; }
+
+.portlet-message-boards .user-name {
+  font-size: 12px;
+  font-weight: bold; }
+
+.portlet-message-boards .message-container .taglib-user-display .user-name {
+  display: none; }
+
+.portlet-message-boards .taglib-user-display {
+  padding: 0px; }
+
+.portlet-message-boards .taglib-user-display .user-profile-image {
+  margin-top: 10px;
+  text-align: left; }
+
+.portlet-message-boards .thread-top {
+  padding-top: 0px; }
+
+.portlet-message-boards .thread-top .subject a {
+  color: black;
+  font-size: 11px; }
+
+.portlet-message-boards .thread-bottom {
+  background-color: #F3F5F5;
+  font-size: 11px;
+  padding-left: 10px;
+  padding-right: 0px; }
+
+.portlet-message-boards h1.header-title {
+  font-size: 14px; }
+
+.portlet-message-boards .results-row.alt .thread-bottom {
+  background-color: #F3F4F5; }
+
+.portlet-message-boards .thread-bottom .taglib-icon .taglib-text {
+  text-decoration: none; }
+
+.portlet-message-boards .no-display {
+  display: none; }
+
+.portlet-message-boards .new-permissions {
+  display: none; }
+
+.portlet-message-boards .results-grid.aui-searchcontainer-content {
+  border: 0px; }
+
+.portlet-message-boards .lfr-search-container .portlet-section-alternate td {
+  background-color: transparent; }
+
+.portlet-message-boards .lfr-search-container td {
+  border: 0px; }
+
+.portlet-message-boards .lfr-search-container tr {
+  border: 1px solid #D7D7D7; }
+
+.portlet-message-boards .lfr-search-container td.col-1, .portlet-message-boards .lfr-search-container td.col-3 {
+  background-color: #F3F4F5; }
+
+.portlet-message-boards #messageBoardsThreadsPanel th.col-1 {
+  font-size: 0px; }
+
+.portlet-message-boards #messageBoardsThreadsPanel td.col-2 span {
+  font-size: 11px; }
+
+.portlet-message-boards #messageBoardsThreadsPanel td.col-1 {
+  padding: 5px;
+  width: 10px; }
+
+.portlet-message-boards #messageBoardsThreadsPanel .col-3, .portlet-message-boards #messageBoardsThreadsPanel th.col-4 {
+  text-align: center;
+  width: 30px; }
+
+.portlet-message-boards #messageBoardsThreadsPanel td.col-4 {
+  font-size: 11px;
+  text-align: right;
+  width: 170px; }
+
+.portlet-message-boards #messageBoardsCategoriesPanel .results-header {
+  display: none; }
+
+.portlet-message-boards #messageBoardsCategoriesPanel .search-results {
+  display: none; }
+
+.portlet-message-boards #messageBoardsCategoriesPanel tr {
+  border: 0px; }
+
+.portlet-message-boards #messageBoardsCategoriesPanel td {
+  background-color: transparent;
+  border: 0px; }
+
+/* ---------- ISM Plugin ---------- */
+.portlet-ism-plugin {
+  margin-bottom: 30px; }
+
+.portlet-ism-plugin .portlet-content {
+  padding-bottom: 0px; }
+
+.portlet-ism-plugin .portlet-msg-info {
+  margin-bottom: 0px; }
+
+/* ---------- Navigation ---------- */
+.portlet-navigation .icon {
+  display: none; }
+
+/* ---------- Asset Category Admin ---------- */
+.portlet-asset-category-admin .categories-treeview-container .aui-tree-node-content .aui-tree-label {
+  display: block;
+  float: none;
+  margin-left: 15px;
+  padding-bottom: 15px;
+  text-align: left; }
+
+.portlet-asset-category-admin .aui-tree-node-checkbox-container {
+  padding-right: 3px; }
+
+.portlet-asset-category-admin .vocabulary-categories, .portlet-asset-category-admin .categories-treeview-container {
+  overflow: visible; }
+
+/* ---------- Workflow ---------- */
+.portlet-workflow-tasks .taglib-discussion-header,
+.portlet-workflow-definitions .taglib-discussion-header,
+.portlet-workflow-instances .taglib-discussion-header {
+  background-color: transparent;
+  height: 25px; }
+
+.portlet-workflow-tasks .taglib-discussion-header .subscription,
+.portlet-workflow-definitions .taglib-discussion-header .subscription,
+.portlet-workflow-instances .taglib-discussion-header .subscription {
+  margin-top: 8px; }
+
+.portlet-workflow-tasks .taglib-discussion .header-text,
+.portlet-workflow-definitions .taglib-discussion .header-text,
+.portlet-workflow-instances .taglib-discussion .header-text {
+  display: none; }
+

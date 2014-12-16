@@ -1,0 +1,11 @@
+.no-display {
+	display: none;
+}
+
+.portlet-ism-search .results-content th {
+	display: none;
+}
+
+.portlet-ism-search tr.portlet-section-header.results-header {
+      display: none;
+}

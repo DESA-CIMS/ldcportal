@@ -1,0 +1,57 @@
+.red h1,.red h2,.red h3,.red a,.red .taglib-discussion .lfr-discussion-header .posted-on
+	{
+	color: #9D0D15;
+}
+
+.red .taglib-discussion-header {
+	background-color: #B28484;
+}
+
+.red .taglib-discussion-header .subscription .taglib-icon {
+	color: white;
+}
+
+
+.red .special-un-column .portlet-asset-publisher,
+.special-un-column .portlet-asset-publisher.red
+	{
+	border-color: #C8A9A9;
+	background-color: white;
+	background-image: url(../../images/custom/background_red_1.png);
+}
+
+.red .special-un-column.special-un-column-middle .portlet-asset-publisher,
+.special-un-column.special-un-column-middle .portlet-asset-publisher.red
+	{
+	background-color: #FAF3F3;
+	background-image: url(../../images/custom/background_red_2.png);
+}
+
+.red input[type="submit"], .red input[type="button"], .red input[type="reset"], .red button, .red button.aui-toolbar-item  {
+	border-color: #C8A9A9;
+}
+
+.red .tooltip:hover span {
+	border-color: #9D0D15;
+}
+
+.red tr.portlet-section-header.results-header, .red .chrome tr.portlet-section-header.results-header {
+	background-color: #9D0D15;
+}
+
+/* ------ Message Boards Portlet ------ */
+.red .portlet-message-boards .thread-controls {
+	background-color: #9D0D15;
+}
+.red .breadcrumbs .last span {
+	background-image: none;
+}
+
+/* ------ Breadcrumbs ------ */
+.red .breadcrumbs li {
+	color: #9D0D15;
+}
+.red .breadcrumbs li span {
+	background-image: url(../../images/custom/breadcrumbs_red.png);
+}
+

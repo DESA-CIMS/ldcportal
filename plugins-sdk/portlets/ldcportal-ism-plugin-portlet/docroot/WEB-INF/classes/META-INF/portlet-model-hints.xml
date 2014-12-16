@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="org.un.ldcportal.ismapplications.model.ISM">
+		<field name="ismId" type="long" />
+		<field name="webContentId" type="long" />
+		<field name="moderatorId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="mbCategoryId" type="long" />
+		<field name="assetCategoryId" type="long" />
+	</model>
+	<model name="org.un.ldcportal.ismapplications.model.ISMApplication">
+		<field name="uuid" type="String" />
+		<field name="ismApplicationId" type="long" />
+		<field name="country" type="String" />
+		<field name="ismId" type="long" />
+		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
+		<field name="companyId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="userId" type="long" />
+		<field name="applicationReason" type="String" />
+		<field name="applicationAdditional" type="String" />
+	</model>
+</model-hints>

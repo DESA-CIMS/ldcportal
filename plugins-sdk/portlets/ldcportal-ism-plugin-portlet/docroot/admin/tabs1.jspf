@@ -1,0 +1,24 @@
+<%--
+/**
+ *
+ * ISM Plugin Admin Portlet
+ * United Nations Support Measures Portal v2
+ * http://www.un.org/ldcportal 
+ *
+ * @author Thibault Boyeux (thibault.boyeux@gmail.com), 2012
+ *
+ */
+--%>
+
+<%
+	String tabs1 = ParamUtil.getString(request, "tabs1", "ism-home");
+%>
+
+
+<portlet:renderURL var="tabsURL">
+	<portlet:param name="tabs1" value="<%= tabs1 %>" />
+</portlet:renderURL>
+
+
+<liferay-ui:tabs names="ism-home,configuration" url="<%= tabsURL.toString() %>" />
+

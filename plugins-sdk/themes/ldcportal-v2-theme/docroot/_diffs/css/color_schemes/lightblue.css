@@ -1,0 +1,48 @@
+.lightblue h1, .lightblue h2, .lightblue h3, .lightblue a, .lightblue .taglib-discussion .lfr-discussion-header .posted-on {
+	color: #1C88CB;
+}
+
+.lightblue .taglib-discussion-header {
+	background-color: #AFD8ED;
+}
+
+
+
+.lightblue .special-un-column .portlet-asset-publisher,
+.special-un-column .portlet-asset-publisher.lightblue
+	{
+	border-color: #C8E9FF;
+	background-color: white;
+	background-image: url(../../images/custom/background_lightblue_1.png);
+}
+
+.lightblue .special-un-column.special-un-column-middle .portlet-asset-publisher,
+.special-un-column.special-un-column-middle .portlet-asset-publisher.lightblue
+	{
+	background-color: #F5FAFD;
+	background-image: url(../../images/custom/background_lightblue_2.png);
+}
+
+.lightblue .tooltip:hover span {
+	border-color: #8BDCD9;
+}
+
+.lightblue tr.portlet-section-header.results-header {
+	background-color: #39A0E0;
+	background-image: url(../../images/custom/gradated-background.png);
+}
+
+.lightblue .chrome tr.portlet-section-header.results-header {
+	background-color: #39A0E0;
+}
+
+/* ------ Message Boards Portlet ------ */
+.lightblue .portlet-message-boards .thread-controls {
+	background-color: #39A0E0;
+}
+
+/* ------ Breadcrumbs ------ */
+.lightblue .breadcrumbs li {
+	color: #1C88CB;
+}
+

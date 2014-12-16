@@ -1,0 +1,1 @@
+create index IX_D6D1617 on LDCJargon_LDCJargon (groupId);

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 6.0.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_6_0_0.dtd">
+<service-builder package-path="org.un.ldcportal.ismapplications">
+    <author>Thibault Boyeux</author>
+    <namespace>ISM</namespace>
+    <entity name="ISM" local-service="true" remote-service="false">
+        <column name="ismId" type="long" primary="true"></column>
+        <column name="webContentId" type="long"></column>
+        <column name="ismApplications" type="Collection" entity="ISMApplication" mapping-key="applicationId"></column>
+        <column name="moderatorId" type="long"></column>
+        <column name="companyId" type="long"></column>
+        <column name="groupId" type="long"></column>
+        <column name="mbCategoryId" type="long"></column>
+        <column name="assetCategoryId" type="long"></column>
+        <finder return-type="Collection" name="GroupId">
+            <finder-column name="groupId"></finder-column>
+        </finder>
+        <finder name="G_C" return-type="Collection">
+            <finder-column name="groupId"></finder-column>
+            <finder-column name="companyId"></finder-column>
+        </finder>
+        <finder name="WebContendId" return-type="ISM" unique="true">
+            <finder-column name="webContentId"></finder-column>
+        </finder>
+        <finder name="G_I" return-type="ISM">
+            <finder-column name="ismId"></finder-column>
+            <finder-column name="groupId"></finder-column>
+        </finder>
+        <finder name="ismId" return-type="ISM">
+            <finder-column name="ismId"></finder-column>
+        </finder>
+        <finder name="mbCategoryId" return-type="Collection">
+            <finder-column name="mbCategoryId"></finder-column>
+        </finder>
+    </entity>
+    <entity name="ISMApplication" local-service="true" remote-service="false" uuid="true">
+        <column name="ismApplicationId" type="long" primary="true"></column>
+        <column name="country" type="String"></column>
+        <column name="ismId" type="long"></column>
+        <column name="status" type="int"></column>
+        <column name="statusByUserId" type="long"></column>
+        <column name="statusByUserName" type="String"></column>
+        <column name="statusDate" type="Date"></column>
+        <column name="companyId" type="long"></column>
+        <column name="groupId" type="long"></column>
+        <column name="userId" type="long"></column>
+        <column name="applicationReason" type="String"></column>
+        <column name="applicationAdditional" type="String"></column>
+        <finder name="GroupId" return-type="Collection">
+            <finder-column name="groupId"></finder-column>
+        </finder>
+        <finder name="CompanyId" return-type="Collection">
+            <finder-column name="companyId"></finder-column>
+        </finder>
+        <finder name="G_S" return-type="Collection">
+            <finder-column name="groupId"></finder-column>
+            <finder-column name="status"></finder-column>
+        </finder>
+        <reference entity="User" package-path="com.liferay.portal"></reference>
+        <reference entity="AssetEntry" package-path="com.liferay.portlet.asset"></reference>
+    </entity>
+</service-builder>

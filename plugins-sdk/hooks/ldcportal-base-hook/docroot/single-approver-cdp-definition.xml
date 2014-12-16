@@ -1,0 +1,187 @@
+<?xml version="1.0"?>
+
+<workflow-definition xmlns="urn:liferay.com:liferay-workflow_6.1.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="urn:liferay.com:liferay-workflow_6.1.0 http://www.liferay.com/dtd/liferay-workflow-definition_6_1_0.xsd">
+	<name>Single Approver CDP</name>
+	<description>All users able to upload content need to have it reviewed except if he has roles Administrator, Site Administrator or Site Owner</description>
+	<version>1</version>
+
+	<state>
+		<name>created</name>
+		<initial>true</initial>
+		<transitions>
+			<transition>
+				<name>Determine Branch</name>
+				<target>determine-branch</target>
+				<default>true</default>
+			</transition>
+		</transitions>
+	</state>
+
+	<condition>
+		<name>determine-branch</name>
+		<script>
+			<![CDATA[
+				import com.liferay.portal.kernel.util.GetterUtil;
+                import com.liferay.portal.kernel.workflow.WorkflowConstants;
+                import com.liferay.portal.service.RoleLocalServiceUtil;
+                import com.liferay.portal.service.UserGroupRoleLocalServiceUtil;
+                
+                long contextUserId = GetterUtil.getLong((String)workflowContext.get(WorkflowConstants.CONTEXT_USER_ID));
+                long companyId = GetterUtil.getLong((String)workflowContext.get(WorkflowConstants.CONTEXT_COMPANY_ID));
+                long groupId = GetterUtil.getLong((String)workflowContext.get(WorkflowConstants.CONTEXT_GROUP_ID));                
+               
+                boolean isAdmin = RoleLocalServiceUtil.hasUserRole(contextUserId, companyId, "Administrator", true);
+                boolean isSiteAdmin = UserGroupRoleLocalServiceUtil.hasUserGroupRole(contextUserId, groupId, "Site Administrator", true);
+                boolean isSiteOwner = UserGroupRoleLocalServiceUtil.hasUserGroupRole(contextUserId, groupId, "Site Owner", true);
+                
+                boolean canSkipValidation = isAdmin || isSiteAdmin || isSiteOwner;
+                
+                if (canSkipValidation) {
+                	returnValue = "Approve";
+                }
+                else {
+                	returnValue = "Review";
+                }
+                
+			]]>
+		</script>
+		<script-language>groovy</script-language>
+		<transitions>
+			<transition>
+				<name>Approve</name>
+				<target>approved-no-notif</target>
+				<default>false</default>
+			</transition>
+			<transition>
+				<name>Review</name>
+				<target>review</target>
+				<default>false</default>
+			</transition>
+		</transitions>
+	</condition>
+
+	<task>
+		<name>update</name>
+		<actions>
+			<notification>
+				<name>Creator Modification Notification</name>
+				<description>Submission needs update</description>
+				<template>Your submission was rejected by a reviewer, please modify and resubmit.</template>
+				<template-language>text</template-language>
+				<notification-type>email</notification-type>
+				<execution-type>onAssignment</execution-type>
+			</notification>
+		</actions>
+		<assignments>
+			<user />
+		</assignments>
+		<transitions>
+			<transition>
+				<name>resubmit</name>
+				<target>review</target>
+			</transition>
+		</transitions>
+	</task>
+
+	<task>
+		<name>review</name>
+		<actions>
+			<notification>
+				<name>Review Notification</name>
+				<description>New submission waiting for review</description>
+				<template>You have a new submission waiting for your review in the workflow.</template>
+				<template-language>text</template-language>
+				<notification-type>email</notification-type>
+				<execution-type>onAssignment</execution-type>
+			</notification>
+			<notification>
+				<name>Review Completion Notification</name>
+				<description>Submission has been reviewed</description>
+				<template>
+					Your submission has been reviewed and the reviewer has applied the following ${taskComments}.</template>
+				<template-language>freemarker</template-language>
+				<notification-type>email</notification-type>
+				<recipients>
+					<user />
+				</recipients>
+				<execution-type>onExit</execution-type>
+			</notification>
+		</actions>
+		<assignments>
+			<roles>
+				<role>
+					<role-type>regular</role-type>
+					<name>Administrator</name>
+				</role>
+				<role>
+					<role-type>site</role-type>
+					<name>Site Administrator</name>
+				</role>
+				<role>
+					<role-type>site</role-type>
+					<name>Site Owner</name>
+				</role>
+				<role>
+					<role-type>site</role-type>
+					<name>Site Content Reviewer</name>
+				</role>
+			</roles>
+		</assignments>
+		<transitions>
+			<transition>
+				<name>approve</name>
+				<target>approved</target>
+			</transition>
+			<transition>
+				<name>reject</name>
+				<target>update</target>
+				<default>false</default>
+			</transition>
+		</transitions>
+	</task>
+
+	<state>
+		<name>approved</name>
+		<actions>
+			<notification>
+				<name>Submission Approved</name>
+				<description>Submission approved</description>
+				<template>Your submission has been approved by its reviewer.</template>
+				<template-language>text</template-language>
+				<notification-type>email</notification-type>
+				<recipients>
+					<user />
+				</recipients>
+				<execution-type>onEntry</execution-type>
+			</notification>			
+			<action>
+				<name>approve</name>
+				<script>
+					<![CDATA[
+						Packages.com.liferay.portal.kernel.workflow.WorkflowStatusManagerUtil.updateStatus(Packages.com.liferay.portal.kernel.workflow.WorkflowConstants.toStatus("approved"), workflowContext);
+					]]>
+				</script>
+				<script-language>javascript</script-language>
+				<execution-type>onEntry</execution-type>
+			</action>
+		</actions>
+	</state>
+	
+	<state>
+		<name>approved-no-notif</name>
+		<actions>
+			<action>
+				<name>approve</name>
+				<script>
+					<![CDATA[
+						Packages.com.liferay.portal.kernel.workflow.WorkflowStatusManagerUtil.updateStatus(Packages.com.liferay.portal.kernel.workflow.WorkflowConstants.toStatus("approved"), workflowContext);
+					]]>
+				</script>
+				<script-language>javascript</script-language>
+				<execution-type>onEntry</execution-type>
+			</action>
+		</actions>
+	</state>
+</workflow-definition>

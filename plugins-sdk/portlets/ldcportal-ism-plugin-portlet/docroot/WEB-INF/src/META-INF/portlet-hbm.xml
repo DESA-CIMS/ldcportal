@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping default-lazy="false" auto-import="false">
+	<import class="org.un.ldcportal.ismapplications.model.ISM" />
+	<import class="org.un.ldcportal.ismapplications.model.ISMApplication" />
+	<class name="org.un.ldcportal.ismapplications.model.impl.ISMImpl" table="ISM_ISM">
+		<cache usage="read-write" />
+		<id name="ismId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="webContentId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="moderatorId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="mbCategoryId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="assetCategoryId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+	</class>
+	<class name="org.un.ldcportal.ismapplications.model.impl.ISMApplicationImpl" table="ISM_ISMApplication">
+		<cache usage="read-write" />
+		<id name="ismApplicationId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="uuid" type="com.liferay.portal.dao.orm.hibernate.StringType" column="uuid_" />
+		<property name="country" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="ismId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="status" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="statusByUserId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="statusByUserName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="statusDate" type="org.hibernate.type.TimestampType" />
+		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="applicationReason" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="applicationAdditional" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+</hibernate-mapping>

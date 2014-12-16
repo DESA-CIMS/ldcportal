@@ -1,0 +1,181 @@
+<%--
+/**
+ *
+ * ISM Search Portlet
+ * United Nations Support Measures Portal v2
+ * http://www.un.org/ldcportal 
+ *
+ * Used to display each group in the filter menu on the right of the page
+ * 
+ * @author Thibault Boyeux (thibault.boyeux@gmail.com), 2012
+ *
+ */
+--%>
+<%
+	String cssClass = "";
+	boolean isMasterCategory = (categoryId == masterCategoryId) ? true : false;
+	if (!isMasterCategory && displayFor != GetterUtil.DEFAULT_INTEGER) {
+		cssClass = "no-display masterCategory" + displayFor;
+	}
+
+	//HashMap<Long, Set<Long>> nonEmptyCategories = new HashMap<Long, Set<Long>>();
+
+	// Get non empty categories only if the "Only Non Empty" option was selected in Configuration
+// 	if (onlyNonEmpty) {
+// 		// 		nonEmptyCategories = ISMSearchUtil.getNonEmptyCategories(scopeGroupId, categoryId, masterCategoryId);
+// 		criteriasId = ISMSearchUtil.getNonEmptyCategories(ismCategoryId, criteriasId);
+// 	}
+
+	String criteriaCssClass = "";
+
+	String categoryTitle = category.getTitle(locale);
+	String delimiter = ">";
+	if (categoryTitle.contains(delimiter)) {
+		String[] splitTitle = StringUtil.split(categoryTitle, delimiter);
+		categoryTitle = splitTitle[splitTitle.length - 1];
+	}
+%>
+
+<liferay-ui:panel defaultState="open" collapsible="<%= true %>"
+	extended="<%= false %>"
+	id='<%= "ISMSearchCategoryFilter" + categoriesId[i] %>'
+	persistState="<%= true %>" title='<%= categoryTitle %>'
+	cssClass="<%= cssClass %>">
+
+	<%-- Checkbox mode --%>
+	<%
+		//
+			if (displayType.equals("checkbox")) {
+				// Get the list of nonEmptyCategories
+				
+				// "Only non empty" option selected
+				if (onlyNonEmpty) {
+					//criteriaCssClass = ISMSearchUtil.getCriteriaCssClass(nonEmptyCategories, criteriaId);
+					List<AssetCategory> criterias = AssetCategoryLocalServiceUtil.getChildCategories(categoryId);				
+					
+					long[] nonEmptyCriteriasId = ISMSearchUtil.getNonEmptyCategories(ismCategoryId, criterias);
+									
+					for (AssetCategory criteria : criterias ) {
+						long criteriaId = criteria.getCategoryId();
+						
+						if (Arrays.binarySearch(nonEmptyCriteriasId, criteriaId) < 0) {
+							continue;
+						}
+
+						boolean checkboxValue = false;
+						if (selectedCategories != null && Arrays.binarySearch(selectedCategories, criteriaId) >= 0) {
+							checkboxValue = true;
+						}
+						%>
+						
+			<aui:input type="checkbox" name='<%= "checkbox" + criteriaId %>'
+			ignoreRequestValue="false" value="<%= checkboxValue %>"
+			label="<%= criteria.getTitle(locale) %>" />
+						
+						<%				
+					}
+				}
+				else {
+					for (int j = 0; j < criteriasId.length; j++) {
+						long criteriaId = Long.valueOf(criteriasId[j]);
+	
+						AssetCategory criteria = AssetCategoryLocalServiceUtil.getCategory(criteriaId);
+	
+						boolean checkboxValue = false;
+						if (selectedCategories != null && Arrays.binarySearch(selectedCategories, criteriaId) >= 0) {
+							checkboxValue = true;
+						}
+		%>
+		<aui:input type="checkbox" name='<%= "checkbox" + criteriasId[j] %>'
+			ignoreRequestValue="false" value="<%= checkboxValue %>"
+			label="<%= criteria.getTitle(locale) %>"/>
+	
+		<%-- Dropdown list mode --%>
+		<%
+			}
+		}		
+			}
+			else if (displayType.equals("dropdown-list")) {
+				String onClickString = StringPool.BLANK;
+				if (isMasterCategory) {
+					onClickString = renderResponse.getNamespace() + "displayPanels()";
+				}
+	%>
+	<aui:select name='<%= "select" + categoryId %>'
+		onchange="<%= onClickString %>" label="">
+		<aui:option value=""></aui:option>
+		<%
+			//	
+
+						for (int j = 0; j < criteriasId.length; j++) {
+							long criteriaId = Long.valueOf(criteriasId[j]);
+
+							AssetCategory criteria = AssetCategoryLocalServiceUtil.getCategory(criteriaId);
+
+							boolean selected = false;
+							if (selectedCategories != null && Arrays.binarySearch(selectedCategories, criteriaId) >= 0) {
+								selected = true;
+							}
+		%>
+		<aui:option value="<%= criteriasId[j] %>"
+			onClick="<%= onClickString %>" selected="<%= selected %>">
+			<%=criteria.getTitle(locale)%>
+		</aui:option>
+		<%
+			}
+		%>
+	</aui:select>
+
+	<%-- New window mode --%>
+	<%
+		}
+			else if (displayType.equals("new-window")) {
+				allNWCategoryIds = StringUtil.add(allNWCategoryIds, String.valueOf(category.getCategoryId()));
+
+				String selectedCategoriesNW = (String) request.getAttribute("selectedCategoriesNW" + categoryId);
+				int nbSelectedCategoriesNW = 0;
+
+				if (selectedCategoriesNW == null) {
+					selectedCategoriesNW = "";
+				}
+				else {
+					nbSelectedCategoriesNW = StringUtil.split(selectedCategoriesNW).length;
+				}
+	%>
+
+	<aui:input type="hidden" name='<%= "nw" + categoryId %>'
+		value="<%= selectedCategoriesNW %>" />
+
+	<portlet:renderURL var="renderURL"
+		windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
+		<portlet:param name="jspPage" value="/new_window.jsp" />
+		<portlet:param name="depth" value="<%=  String.valueOf(depth) %>" />
+		<portlet:param name="categoryId" value="<%= categoriesId[i] %>" />
+		<portlet:param name="redirect" value="<%= currentURL %>" />
+	</portlet:renderURL>
+
+
+	<portlet:resourceURL var="resourceURL">
+		<portlet:param name="categoryId" value="<%= categoriesId[i] %>" />
+	</portlet:resourceURL>
+
+
+	<%-- Pop-up script used to open a new selection window for "New window" mode --%>
+	<%
+		String popupScript =
+					renderResponse.getNamespace() + "callPopup('" + renderURL.toString() + "', '" + resourceURL.toString() + "', '" +
+						category.getTitle(locale) + "', '" + categoriesId[i] + "')";
+	%>
+	<a class="selectNWLink" href="javascript:void(0)"
+		onclick="<%=popupScript%>"> <span class="numberSelectedNW"
+		id="<portlet:namespace />numberSelectedNW<%=categoriesId[i]%>"><%=nbSelectedCategoriesNW%>
+			<%=LanguageUtil.get(pageContext, "selected").toLowerCase()%> </span></a>
+
+
+
+	<%
+		}
+	%>
+</liferay-ui:panel>
+
+

@@ -1,0 +1,66 @@
+<aui:fieldset cssClass="add-comment" id='<%= randomNamespace + "messageScroll0" %>'>
+					<div id="<%=randomNamespace%>messageScroll<%=message.getMessageId()%>">
+						<aui:input name='<%= "messageId" + i %>' type="hidden"
+							value="<%= message.getMessageId() %>" />
+						<aui:input name='<%= "parentMessageId" + i %>' type="hidden"
+							value="<%= rootMessage.getMessageId() %>" />
+					</div>
+
+
+				
+
+					<aui:input name="emailAddress" type="hidden" />
+					
+					<div class="lfr-discussion new" id="<%=randomNamespace%>postReplyForm<%=i%>">
+						<aui:column cssClass="lfr-discussion-details">
+							<liferay-ui:user-display displayStyle="<%= 2 %>" userId="<%= user.getUserId() %>"
+									userName="<%= HtmlUtil.escape(PortalUtil.getUserName(user.getUserId(), StringPool.BLANK)) %>" />
+						</aui:column>
+						
+						<aui:column cssClass="lfr-discussion-body">
+							<div class="lfr-discussion-header">
+								<span class="user-name"><%= HtmlUtil.escape(PortalUtil.getUserName(user.getUserId(), StringPool.BLANK))%></span>
+							</div>
+							<div class="lfr-discussion-message">
+								<aui:input id='<%= randomNamespace + "postReplyBody" + i %>' label=""
+									name='<%= "postReplyBody" + i %>'
+									style='<%= "height: " + ModelHintsConstants.TEXTAREA_DISPLAY_HEIGHT + "px; width: 100%;" %>'
+									type="textarea" onFocus="this.value=''; this.onfocus=null;" value='<%= LanguageUtil.get(pageContext, "your-comment") + "..." %>' wrap="soft" />
+		
+								<%
+									String postReplyButtonLabel = LanguageUtil.get(pageContext, "reply");
+		
+													if (!themeDisplay.isSignedIn()) {
+														postReplyButtonLabel = LanguageUtil.get(pageContext, "reply-as");
+													}
+		
+													if (WorkflowDefinitionLinkLocalServiceUtil.hasWorkflowDefinitionLink(
+														themeDisplay.getCompanyId(), scopeGroupId, MBDiscussion.class.getName()) &&
+														!strutsAction.contains("workflow")) {
+														postReplyButtonLabel = LanguageUtil.get(pageContext, "submit-for-publication");
+													}
+								%>							
+		
+								<aui:button-row>
+									<aui:button id='<%= namespace + randomNamespace + "postReplyButton" + i %>'
+										onClick='<%= randomNamespace + "postReply(" + i + ");" %>'
+										value="<%= postReplyButtonLabel %>" />
+		
+									<%
+										String taglibCancel =
+																"document.getElementById('" + randomNamespace + "postReplyForm" + i +
+																	"').style.display = 'none'; document.getElementById('" + namespace + randomNamespace +
+																	"postReplyBody" + i + "').value = ''; void('');";
+									%>
+		
+								</aui:button-row>
+								
+								<c:if test="<%= !subscribed && themeDisplay.isSignedIn() %>">
+									<aui:input helpMessage="comments-subscribe-me-help" label="subscribe-me"
+										name="subscribe" type="checkbox"
+										value="<%= PropsValues.DISCUSSION_SUBSCRIBE_BY_DEFAULT %>" />
+								</c:if>
+							</div>
+						</aui:column>
+					</div>
+				</aui:fieldset>

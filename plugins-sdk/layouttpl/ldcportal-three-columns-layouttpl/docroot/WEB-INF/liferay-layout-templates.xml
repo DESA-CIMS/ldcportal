@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE layout-templates PUBLIC "-//Liferay//DTD Layout Templates 6.1.0//EN" "http://www.liferay.com/dtd/liferay-layout-templates_6_1_0.dtd">
+
+<layout-templates>
+	<custom>
+		<layout-template id="one_two_three_one_columns" name="1-2-3-1 Columns">
+			<template-path>/one_two_three_one_columns.tpl</template-path>
+			<wap-template-path>/one_two_three_one_columns.wap.tpl</wap-template-path>
+			<thumbnail-path>/one_two_three_one_columns.png</thumbnail-path>
+		</layout-template>
+		<layout-template id="one_two_three_three_one_columns" name="1-2-3-3-1 Columns">
+			<template-path>/one_two_three_three_one_columns.tpl</template-path>
+			<wap-template-path>/one_two_three_three_one_columns.wap.tpl</wap-template-path>
+			<thumbnail-path>/one_two_three_one_columns.png</thumbnail-path>
+		</layout-template>
+		<layout-template id="two_three_one_columns" name="2-3-1 Columns">
+			<template-path>/two_three_one_columns.tpl</template-path>
+			<wap-template-path>/two_three_one_columns.wap.tpl</wap-template-path>
+			<thumbnail-path>/two_three_one_columns.png</thumbnail-path>
+		</layout-template>
+		<layout-template id="two_three_three_one_columns" name="2-3-3-1 Columns">
+			<template-path>/two_three_three_one_columns.tpl</template-path>
+			<wap-template-path>/two_three_three_one_columns.wap.tpl</wap-template-path>
+			<thumbnail-path>/two_three_one_columns.png</thumbnail-path>
+		</layout-template>
+	</custom>
+</layout-templates>

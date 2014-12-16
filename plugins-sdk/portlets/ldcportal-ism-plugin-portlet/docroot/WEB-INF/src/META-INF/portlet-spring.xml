@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" default-destroy-method="destroy" default-init-method="afterPropertiesSet" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	<bean id="org.un.ldcportal.ismapplications.service.ISMLocalService" class="org.un.ldcportal.ismapplications.service.impl.ISMLocalServiceImpl" />
+	<bean id="org.un.ldcportal.ismapplications.service.ISMLocalServiceUtil" class="org.un.ldcportal.ismapplications.service.ISMLocalServiceUtil">
+		<property name="service" ref="org.un.ldcportal.ismapplications.service.ISMLocalService" />
+	</bean>
+	<bean id="org.un.ldcportal.ismapplications.service.persistence.ISMPersistence" class="org.un.ldcportal.ismapplications.service.persistence.ISMPersistenceImpl" parent="basePersistence" />
+	<bean id="org.un.ldcportal.ismapplications.service.ISMApplicationLocalService" class="org.un.ldcportal.ismapplications.service.impl.ISMApplicationLocalServiceImpl" />
+	<bean id="org.un.ldcportal.ismapplications.service.ISMApplicationLocalServiceUtil" class="org.un.ldcportal.ismapplications.service.ISMApplicationLocalServiceUtil">
+		<property name="service" ref="org.un.ldcportal.ismapplications.service.ISMApplicationLocalService" />
+	</bean>
+	<bean id="org.un.ldcportal.ismapplications.service.persistence.ISMApplicationPersistence" class="org.un.ldcportal.ismapplications.service.persistence.ISMApplicationPersistenceImpl" parent="basePersistence" />
+</beans>

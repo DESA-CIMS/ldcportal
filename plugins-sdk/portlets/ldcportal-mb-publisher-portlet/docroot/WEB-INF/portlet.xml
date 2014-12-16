@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+<!--
+  This file is part of version 2 of the United Nations Least Developed Countries Support Measures Portal (http://www.un.org/ldcportal).
+  
+  It has been generated, modified and/or coded by Thibault Boyeux : thibault.boyeux@gmail.com (2012).
+-->
+<portlet-app
+	version="2.0"
+	xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd"
+>
+	<portlet>
+		<portlet-name>ldcportal-mb-publisher</portlet-name>
+		<display-name>Message Boards Publisher</display-name>
+		<portlet-class>com.liferay.util.bridges.mvc.MVCPortlet</portlet-class>
+		<init-param>
+			<name>view-jsp</name>
+			<value>/view.jsp</value>
+		</init-param>
+		<expiration-cache>0</expiration-cache>
+		<supports>
+			<mime-type>text/html</mime-type>
+			<portlet-mode>view</portlet-mode>
+		</supports>			
+		<resource-bundle>content.Language</resource-bundle>		
+		<portlet-info>
+			<title>Message Boards Publisher</title>
+			<short-title>Message Boards Publisher</short-title>
+			<keywords>Message Boards Publisher</keywords>
+		</portlet-info>
+		<portlet-preferences>
+			<preference>
+				<name>category</name>
+				<value>-1</value>
+			</preference>
+			<preference>
+				<name>abstractLength</name>
+				<value>200</value>
+			</preference>
+			<preference>
+				<name>delta</name>
+				<value>5</value>
+			</preference>
+			<preference>
+				<name>metadataFields</name>
+				<value></value>
+			</preference>
+		</portlet-preferences>	
+		<security-role-ref>
+			<role-name>administrator</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>guest</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>power-user</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>user</role-name>
+		</security-role-ref>
+	</portlet>
+	
+	<portlet>
+		<portlet-name>ldcportal-mb-publisher-admin</portlet-name>
+		<display-name>Message Boards Publisher Admin</display-name>
+		<portlet-class>com.liferay.util.bridges.mvc.MVCPortlet</portlet-class>
+		<init-param>
+			<name>view-jsp</name>
+			<value>/admin/view.jsp</value>
+		</init-param>
+		<expiration-cache>0</expiration-cache>
+		<supports>
+			<mime-type>text/html</mime-type>
+			<portlet-mode>view</portlet-mode>
+		</supports>			
+		<resource-bundle>content.Language</resource-bundle>		
+		<portlet-info>
+			<title>My Posts</title>
+			<short-title>Message Boards Publisher Admin</short-title>
+			<keywords>Message Boards Publisher Admin</keywords>
+		</portlet-info>
+		<security-role-ref>
+			<role-name>administrator</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>guest</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>power-user</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>user</role-name>
+		</security-role-ref>
+	</portlet>
+</portlet-app>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+
+#parse ($init)
+
+<html class="#language("lang.dir")" dir="#language("lang.dir")" lang="$w3c_language_id">
+
+<head>
+	<title>$the_title - $company_name</title>
+
+	$theme.include($top_head_include)
+	
+	<meta property="og:image" content="http://esango.un.org$images_folder/custom/main_social_caption.jpg" />
+</head>
+
+<body class="$css_class">
+
+$theme.include($body_top_include)
+
+#if ( $is_signed_in && ( $permissionChecker.isOmniadmin() || $permissionChecker.isGroupAdmin( $portletGroupId )  ) )
+        #dockbar()
+#end
+
+#set ($create_account_url = $portletURLFactory.create($request, "58", $page.getPlid(), "ACTION_PHASE"))
+$create_account_url.setWindowState("maximized")
+$create_account_url.setPortletMode("view")
+$create_account_url.setParameter("saveLastPath", "0")
+$create_account_url.setParameter("struts_action", "/login/create_account")
+
+<div id="wrapper">
+
+	<header id="banner" role="banner">
+		<div id="heading">
+		#parse ("$full_templates_path/un_brandbar.vm")
+		
+		<div id="topbar">
+			#if (!$is_signed_in)
+			<span class="sign-in-link">			
+				<a href="$sign_in_url" id="sign-in" rel="nofollow">$sign_in_text</a>			
+			</span>
+			<span class="register-link">
+				<a href="$create_account_url" id="register" rel="nofollow">$languageUtil.format($locale, "register")</a>		
+			</span>				
+			#else
+			<span class="sign-out-link">
+			<a href="$sign_out_url">$sign_out_text</a>
+			</span>
+			<span class="dashboard-link 
+			
+			#if ($page_group.isControlPanel())
+				dashboard-selected
+			#end
+			
+			">
+				<a href="$my_account_url">$languageUtil.format($locale, "my-dashboard")</a>
+			</span>
+			#end
+		</div>
+		<a href="$themeDisplay.getURLHome()">
+			<div id="portal-banner">
+			</div>
+		</a>
+		#if ($has_navigation || $is_signed_in)
+			#parse ("$full_templates_path/navigation.vm")
+		#end
+	</header>
+
+	<div id="content">
+		#if ($control_panel_category == "")
+			<nav class="site-breadcrumbs" id="breadcrumbs" style="display:none;">
+		#else
+			<nav class="site-breadcrumbs control-panel-category" id="breadcrumbs" style="display:none;">
+		#end
+		
+			<h1>
+				<span>#language("breadcrumbs")</span>
+			</h1>
+
+			#breadcrumbs("control_panel")
+		</nav>
+
+		#if ($selectable)
+			$theme.include($content_include)
+		#else
+			$portletDisplay.recycle()
+
+			$portletDisplay.setTitle($the_title)
+
+			$theme.wrapPortlet("portlet.vm", $content_include)
+	#end
+	</div>
+
+	<footer id="footer" role="contentinfo">
+		<ul>
+			#if ($has_navigation)
+				#parse("$full_templates_path/footer.vm")
+			#end
+		</ul>
+	</footer>
+</div>
+
+$theme.include($body_bottom_include)
+
+</body>
+
+$theme.include($bottom_include)
+
+</html>

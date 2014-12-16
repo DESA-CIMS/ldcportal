@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE hook PUBLIC "-//Liferay//DTD Hook 6.0.0//EN" "http://www.liferay.com/dtd/liferay-hook_6_0_0.dtd">
+
+<hook>
+	<portal-properties>portal.properties</portal-properties>
+	<language-properties>content/Language_en.properties</language-properties>
+	<language-properties>content/Language_fr.properties</language-properties>
+	<custom-jsp-dir>/META-INF/custom_jsps</custom-jsp-dir>
+	<service>
+		<service-type>
+			com.liferay.portal.service.UserLocalService
+		</service-type>
+		<service-impl>
+			org.un.ldcportal.hook.service.impl.HookUserLocalServiceImpl
+		</service-impl>
+	</service>
+	<struts-action>
+		<struts-action-path>/message_boards/find_message</struts-action-path>
+		<struts-action-impl>org.un.ldcportal.hook.action.FindMessageAction</struts-action-impl>
+	</struts-action>
+	<struts-action>
+		<struts-action-path>/message_boards/edit_message</struts-action-path>
+		<struts-action-impl>org.un.ldcportal.hook.action.EditMessageAction</struts-action-impl>
+	</struts-action>
+</hook>

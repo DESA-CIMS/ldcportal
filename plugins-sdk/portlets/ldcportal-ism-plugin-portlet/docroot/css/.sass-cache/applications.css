@@ -1,0 +1,21 @@
+.portlet-ism-plugin-applications {
+  margin-bottom: 30px; }
+
+.portlet-ism-plugin-applications .popup label {
+  margin-bottom: 3px;
+  margin-top: 10px; }
+
+.portlet-ism-plugin-applications .popup textarea {
+  height: 100px;
+  width: 70%; }
+
+.portlet-ism-plugin-applications .popup .lfr-panel-title {
+  margin: 4px; }
+
+.portlet-ism-plugin-applications .popup {
+  float: none; }
+
+.portlet-ism-plugin-applications .portlet-content .aui-button-input {
+  margin-right: 8px;
+  float: right; }
+

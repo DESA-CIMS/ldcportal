@@ -1,0 +1,553 @@
+<?xml version="1.0"?>
+
+<workflow-definition xmlns="urn:liferay.com:liferay-workflow_6.1.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="urn:liferay.com:liferay-workflow_6.1.0 http://www.liferay.com/dtd/liferay-workflow-definition_6_1_0.xsd">
+
+	<name>ISM Applications</name>
+	<description>A single moderator can approve a workflow content through defined steps</description>
+	<version>2</version>
+
+	<state>
+		<name>new</name>
+		<actions>
+			<notification>
+				<name>Creator Approved Notification</name>
+				<description>ISM Application submitted</description>
+				<template>
+					<![CDATA[
+					      <#assign comments    = taskComments!"">
+					      <!-- email body -->
+					      <p>
+					   Your ISM application has been submitted and is waiting for review.
+					   
+					   <#if comments != "" >
+					     <br />Assignment comment says: <strong>${comments}</strong>
+					   </#if>
+					   </p>
+					       <!-- signature -->
+					   <p>Sincerely,<br /><strong>United Nations Support Measures Portal</strong></p>
+					   ]]>
+				</template>
+				<template-language>freemarker</template-language>
+				<notification-type>email</notification-type>
+				<recipients>
+					<user />
+				</recipients>
+				<execution-type>onEntry</execution-type>
+			</notification>
+		</actions>
+		<initial>true</initial>
+		<transitions>
+			<transition>
+				<name>review</name>
+				<target>review-cdp-moderators</target>
+				<default>true</default>
+			</transition>
+		</transitions>
+	</state>
+
+	<task>
+		<name>review-cdp-moderators</name>
+		<actions>
+			<notification>
+				<name>Review Notification</name>
+				<description>New ISM application submitted</description>
+				<template>
+					<![CDATA[
+					      <#assign comments    = taskComments!"">
+					      <!-- email body -->
+					      <p>
+					   Please review the new ${entryType} waiting for you in your workflow tasks. 
+					   <#if comments != "" >
+					     <br />Assignment comment says: <strong>${comments}</strong>
+					   </#if>
+					   </p>
+					       <!-- signature -->
+					   <p>Sincerely,<br /><strong>United Nations Support Measures Portal</strong></p>
+					   ]]>
+				</template>
+				<template-language>freemarker</template-language>
+				<notification-type>email</notification-type>
+				<execution-type>onAssignment</execution-type>
+			</notification>
+		</actions>
+		<assignments>
+			<roles>
+				<role>
+					<role-type>site</role-type>
+					<name>ISM Application Reviewer</name>
+				</role>
+			</roles>
+		</assignments>
+		<task-timers>
+			<task-timer>
+				<name />
+				<delay>
+					<duration>14</duration>
+					<scale>day</scale>
+				</delay>
+				<timer-actions>
+					<timer-notification>
+						<name>Review Notification</name>
+						<description>New ISM application submitted</description>
+						<template>
+							<![CDATA[
+							      <#assign comments    = taskComments!"">
+							      <!-- email body -->
+							      <p>
+							   Please review the new ${entryType} waiting for you in your workflow tasks. 
+							   <#if comments != "" >
+							     <br />Assignment comment says: <strong>${comments}</strong>
+							   </#if>
+							   </p>
+							       <!-- signature -->
+							   <p>Sincerely,<br /><strong>United Nations Support Measures Portal</strong></p>
+							   ]]>
+						</template>
+						<template-language>freemarker</template-language>
+						<notification-type>email</notification-type>
+					</timer-notification>
+				</timer-actions>
+			</task-timer>
+		</task-timers>
+		<transitions>
+			<transition>
+				<name>send-to-ism-moderator</name>
+				<target>review-ism-moderator</target>
+				<default>false</default>
+			</transition>
+			<transition>
+				<name>reject</name>
+				<target>add-information-cdp-moderators</target>
+				<default>false</default>
+			</transition>
+			<transition>
+				<name>cancel</name>
+				<target>cancelled</target>
+				<default>false</default>
+			</transition>
+		</transitions>
+	</task>
+
+	<task>
+		<name>add-information-cdp-moderators</name>
+		<actions>
+			<notification>
+				<name>Creator Waiting Notification</name>
+				<description>ISM Application waiting for additional information</description>
+				<template>
+					<![CDATA[
+					      <#assign comments    = taskComments!"">
+					      <!-- email body -->
+					      <p>
+					   Please review the ${entryType} waiting for you in your workflow tasks. 
+					   Your ISM application is waiting for additional information.
+					   <#if comments != "" >
+					     <br />Assignment comment says: <strong>${comments}</strong>
+					   </#if>
+					   </p>
+					       <!-- signature -->
+					   <p>Sincerely,<br /><strong>United Nations Support Measures Portal</strong></p>
+					   ]]>
+				</template>
+				<template-language>freemarker</template-language>
+				<notification-type>email</notification-type>
+				<execution-type>onAssignment</execution-type>
+			</notification>
+		</actions>
+		<assignments>
+			<user />
+		</assignments>
+		<task-timers>
+			<task-timer>
+				<name />
+				<delay>
+					<duration>14</duration>
+					<scale>day</scale>
+				</delay>
+				<timer-actions>
+					<timer-notification>
+						<name>Creator Waiting Notification</name>
+						<description>ISM Application waiting for additional information</description>
+						<template>
+							<![CDATA[
+							      <#assign comments    = taskComments!"">
+							      <!-- email body -->
+							      <p>
+							   Please review the ${entryType} waiting for you in your workflow tasks. 
+							   Your ISM application is waiting for additional information.
+							   <#if comments != "" >
+							     <br />Assignment comment says: <strong>${comments}</strong>
+							   </#if>
+							   </p>
+							       <!-- signature -->
+							   <p>Sincerely,<br /><strong>United Nations Support Measures Portal</strong></p>
+							   ]]>
+						</template>
+						<template-language>freemarker</template-language>
+						<notification-type>email</notification-type>
+					</timer-notification>
+				</timer-actions>
+			</task-timer>
+		</task-timers>
+		<transitions>
+			<transition>
+				<name>resubmit</name>
+				<target>review-cdp-moderators</target>
+				<default>true</default>
+			</transition>
+		</transitions>
+	</task>
+
+	<task>
+		<name>add-information-ism-moderator</name>
+		<actions>
+			<notification>
+				<name>Creator Waiting Notification</name>
+				<description>ISM Application waiting for additional information</description>
+				<template>
+					<![CDATA[
+					      <#assign comments    = taskComments!"">
+					      <!-- email body -->
+					      <p>
+					   Please review the ${entryType} waiting for you in your workflow tasks. 
+					   Your ISM application is waiting for additional information.
+					   <#if comments != "" >
+					     <br />Assignment comment says: <strong>${comments}</strong>
+					   </#if>
+					   </p>
+					       <!-- signature -->
+					   <p>Sincerely,<br /><strong>United Nations Support Measures Portal</strong></p>
+					   ]]>
+				</template>
+				<template-language>freemarker</template-language>
+				<notification-type>email</notification-type>
+				<execution-type>onAssignment</execution-type>
+			</notification>
+		</actions>
+		<assignments>
+			<user />
+		</assignments>
+		<task-timers>
+			<task-timer>
+				<name />
+				<delay>
+					<duration>14</duration>
+					<scale>day</scale>
+				</delay>
+				<timer-actions>
+					<timer-notification>
+						<name>Creator Waiting Notification</name>
+						<description>ISM Application waiting for additional information</description>
+						<template>
+							<![CDATA[
+							      <#assign comments    = taskComments!"">
+							      <!-- email body -->
+							      <p>
+							   Please review the ${entryType} waiting for you in your workflow tasks. 
+							   Your ISM application is waiting for additional information.
+							   <#if comments != "" >
+							     <br />Assignment comment says: <strong>${comments}</strong>
+							   </#if>
+							   </p>
+							       <!-- signature -->
+							   <p>Sincerely,<br /><strong>United Nations Support Measures Portal</strong></p>
+							   ]]>
+						</template>
+						<template-language>freemarker</template-language>
+						<notification-type>email</notification-type>
+					</timer-notification>
+				</timer-actions>
+			</task-timer>
+		</task-timers>
+		<transitions>
+			<transition>
+				<name>resubmit</name>
+				<target>review-ism-moderator</target>
+				<default>true</default>
+			</transition>
+		</transitions>
+	</task>
+
+	<task>
+		<name>review-ism-moderator</name>
+		<actions>
+			<notification>
+				<name>Review Notification</name>
+				<description>New ISM application submitted</description>
+				<template>
+					<![CDATA[
+					      <#assign comments    = taskComments!"">
+					      <!-- email body -->
+					      <p>
+					   Please review the new ${entryType} waiting for you in your workflow tasks. 
+					   <#if comments != "" >
+					     <br />Assignment comment says: <strong>${comments}</strong>
+					   </#if>
+					   </p>
+					       <!-- signature -->
+					   <p>Sincerely,<br /><strong>United Nations Support Measures Portal</strong></p>
+					   ]]>
+				</template>
+				<template-language>freemarker</template-language>
+				<notification-type>email</notification-type>
+				<execution-type>onAssignment</execution-type>
+			</notification>
+		</actions>
+		<assignments>
+			<scripted-assignment>
+				<script>
+					<![CDATA[
+						import com.liferay.portal.kernel.util.GetterUtil;
+                        import com.liferay.portal.kernel.workflow.WorkflowConstants;
+                        import com.liferay.portal.service.UserLocalServiceUtil;
+                        
+                        long companyId = GetterUtil.getLong((String)workflowContext.get(WorkflowConstants.CONTEXT_COMPANY_ID));
+
+                        long moderatorId = GetterUtil.getLong((String)workflowContext.get("ismModeratorId"));
+                        
+                        user = UserLocalServiceUtil.getUser(moderatorId);
+                        
+                        roles = null;                                         
+					]]>
+				</script>
+				<script-language>groovy</script-language>
+			</scripted-assignment>
+		</assignments>
+		<task-timers>
+			<task-timer>
+				<name />
+				<delay>
+					<duration>14</duration>
+					<scale>day</scale>
+				</delay>
+				<timer-actions>
+					<timer-notification>
+						<name>Review Notification</name>
+						<description>New ISM application submitted</description>
+						<template>
+							<![CDATA[
+							      <#assign comments    = taskComments!"">
+							      <!-- email body -->
+							      <p>
+							   Please review the new ${entryType} waiting for you in your workflow tasks. 
+							   <#if comments != "" >
+							     <br />Assignment comment says: <strong>${comments}</strong>
+							   </#if>
+							   </p>
+							       <!-- signature -->
+							   <p>Sincerely,<br /><strong>United Nations Support Measures Portal</strong></p>
+							   ]]>
+						</template>
+						<template-language>freemarker</template-language>
+						<notification-type>email</notification-type>
+					</timer-notification>
+				</timer-actions>
+			</task-timer>
+		</task-timers>
+		<transitions>
+			<transition>
+				<name>approve</name>
+				<target>approved</target>
+				<default>true</default>
+			</transition>
+			<transition>
+				<name>reject</name>
+				<target>add-information-ism-moderator</target>
+				<default>false</default>
+			</transition>
+			<transition>
+				<name>cancel</name>
+				<target>cancelled</target>
+				<default>false</default>
+			</transition>
+		</transitions>
+	</task>
+
+	<state>
+		<name>approved</name>
+		<actions>
+			<notification>
+				<name>Creator Approved Notification</name>
+				<description>ISM Application approved</description>
+				<template>
+					<![CDATA[
+					      <#assign comments    = taskComments!"">
+					      <!-- email body -->
+					      <p>
+					   Your ISM application has been approved and is waiting for completion.
+					   
+					   <#if comments != "" >
+					     <br />Assignment comment says: <strong>${comments}</strong>
+					   </#if>
+					   </p>
+					       <!-- signature -->
+					   <p>Sincerely,<br /><strong>United Nations Support Measures Portal</strong></p>
+					   ]]>
+				</template>
+				<template-language>freemarker</template-language>
+				<notification-type>email</notification-type>
+				<recipients>
+					<user />
+				</recipients>
+				<execution-type>onEntry</execution-type>
+			</notification>
+		</actions>
+		<transitions>
+			<transition>
+				<name>finalize</name>
+				<target>finalize</target>
+				<default>true</default>
+			</transition>
+		</transitions>
+	</state>
+
+	<state>
+		<name>cancelled</name>
+		<actions>
+			<notification>
+				<name>Creator Cancelled Notification</name>
+				<description>ISM Application cancelled</description>
+				<template>
+					<![CDATA[
+					      <#assign comments    = taskComments!"">
+					      <!-- email body -->
+					      <p>
+					   Your ISM application has been cancelled by its reviewer.
+					   <#if comments != "" >
+					     <br />Assignment comment says: <strong>${comments}</strong>
+					   </#if>
+					   </p>
+					       <!-- signature -->
+					   <p>Sincerely,<br /><strong>United Nations Support Measures Portal</strong></p>
+					   ]]>
+				</template>
+				<template-language>freemarker</template-language>
+				<notification-type>email</notification-type>
+				<recipients>
+					<user />
+				</recipients>
+				<execution-type>onEntry</execution-type>
+			</notification>
+		</actions>
+	</state>
+
+	<task>
+		<name>finalize</name>
+		<actions>
+			<notification>
+				<name>Creator Finalize Notification</name>
+				<description>ISM application waiting to be finalized</description>
+				<template>
+					<![CDATA[
+					      <#assign comments    = taskComments!"">
+					      <!-- email body -->
+					      <p>
+					   Please review the ${entryType} waiting for you in your workflow tasks. 
+					   This ISM application was approved and is now waiting for progress review.
+					   <#if comments != "" >
+					     <br />Assignment comment says: <strong>${comments}</strong>
+					   </#if>
+					   </p>
+					       <!-- signature -->
+					   <p>Sincerely,<br /><strong>United Nations Support Measures Portal</strong></p>
+					   ]]>
+				</template>
+				<template-language>freemarker</template-language>
+				<notification-type>email</notification-type>
+				<execution-type>onAssignment</execution-type>
+			</notification>
+		</actions>
+		<assignments>
+			<scripted-assignment>
+				<script>
+					<![CDATA[
+						import com.liferay.portal.kernel.util.GetterUtil;
+                        import com.liferay.portal.kernel.workflow.WorkflowConstants;
+                        import com.liferay.portal.service.UserLocalServiceUtil;
+                        
+                        long companyId = GetterUtil.getLong((String)workflowContext.get(WorkflowConstants.CONTEXT_COMPANY_ID));
+
+                        long moderatorId = GetterUtil.getLong((String)workflowContext.get("ismModeratorId"));
+                        
+                        user = UserLocalServiceUtil.getUser(moderatorId);
+                        
+                        roles = null;                                         
+					]]>
+				</script>
+				<script-language>groovy</script-language>
+			</scripted-assignment>
+		</assignments>
+		<task-timers>
+			<task-timer>
+				<name />
+				<delay>
+					<duration>14</duration>
+					<scale>day</scale>
+				</delay>
+				<timer-actions>
+					<timer-notification>
+						<name>Creator In Progress Notification</name>
+						<description>ISM application under progress</description>
+						<template>
+							<![CDATA[
+							      <#assign comments    = taskComments!"">
+							      <!-- email body -->
+							      <p>
+							   Please review the ${entryType} waiting for you in your workflow tasks. 
+							   This ISM application was approved and is now waiting for progress review.
+							   <#if comments != "" >
+							     <br />Assignment comment says: <strong>${comments}</strong>
+							   </#if>
+							   </p>
+							       <!-- signature -->
+							   <p>Sincerely,<br /><strong>United Nations Support Measures Portal</strong></p>
+							   ]]>
+						</template>
+						<template-language>freemarker</template-language>
+						<notification-type>email</notification-type>
+					</timer-notification>
+				</timer-actions>
+			</task-timer>
+		</task-timers>
+		<transitions>
+			<transition>
+				<name>complete</name>
+				<target>completed</target>
+				<default>true</default>
+			</transition>
+		</transitions>
+	</task>
+
+	<state>
+		<name>completed</name>
+		<actions>
+			<notification>
+				<name>Creator Completed Notification</name>
+				<description>ISM Application completed</description>
+				<template>
+					<![CDATA[
+					      <#assign comments    = taskComments!"">
+					      <!-- email body -->
+					      <p>
+					   Your ISM application has been approved.
+					   <#if comments != "" >
+					     <br />Assignment comment says: <strong>${comments}</strong>
+					   </#if>
+					   </p>
+					       <!-- signature -->
+					   <p>Sincerely,<br /><strong>United Nations Support Measures Portal</strong></p>
+					   ]]>
+				</template>
+				<template-language>freemarker</template-language>
+				<notification-type>email</notification-type>
+				<recipients>
+					<user />
+				</recipients>
+				<execution-type>onEntry</execution-type>
+			</notification>
+		</actions>
+	</state>
+
+</workflow-definition>
