@@ -403,7 +403,7 @@ public class EditMessageAction extends BaseStrutsPortletAction {
 
 		String portletNamespace = PortalUtil.getPortletNamespace(portletId);
 
-		return portletNamespace.concat(WebKeys.PORTLET_STRUTS_FORWARD);
+		return portletNamespace.concat("PORTLET_STRUTS_FORWARD");
 	}
 
 	protected void sendRedirect(ActionRequest actionRequest, ActionResponse actionResponse, String redirect)
