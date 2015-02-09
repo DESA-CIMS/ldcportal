@@ -1,6 +1,16 @@
 
 package org.un.ldcportal.ismsearch.portlet;
 
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.util.Constants;
+import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portlet.asset.model.AssetCategory;
+import com.liferay.portlet.asset.service.AssetCategoryLocalServiceUtil;
+import com.liferay.util.bridges.mvc.MVCPortlet;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -11,20 +21,11 @@ import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
 import javax.portlet.PortletPreferences;
+import javax.portlet.PortletSession;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 
 import org.un.ldcportal.ismsearch.util.ISMSearchUtil;
-
-import com.liferay.portal.kernel.json.JSONFactoryUtil;
-import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.kernel.util.Constants;
-import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portlet.asset.model.AssetCategory;
-import com.liferay.portlet.asset.service.AssetCategoryLocalServiceUtil;
-import com.liferay.util.bridges.mvc.MVCPortlet;
 
 /**
  * ISM Search Portlet United Nations Support Measures Portal v2
@@ -52,11 +53,12 @@ public class ISMSearch extends MVCPortlet {
 		if (!cmd.equals(Constants.UPDATE)) {
 			return;
 		}
-
+		String emptyStringArray []=new String [0]; // empty String Array for preferences by Mpower-Abdul
 		// Get portlet preferences
 		PortletPreferences preferences = actionRequest.getPreferences();
 
-		String[] categoriesId = StringUtil.split(preferences.getValue("categoriesId", ""));
+		String[] categoriesId = preferences.getValues("categoriesId", emptyStringArray);
+		
 
 		ArrayList<String> strSelectedCategories = new ArrayList<String>();
 
@@ -66,7 +68,7 @@ public class ISMSearch extends MVCPortlet {
 			int categoryId = Integer.valueOf(categoriesId[i]);
 			// Get preferences
 			String displayType = preferences.getValue("displayType" + categoryId, ""); // Get
-																					   // display
+			     																	   // display
 																					   // type
 
 			boolean onlyNonEmpty = GetterUtil.getBoolean(preferences.getValue("onlyNonEmpty" + categoryId, null), false);
@@ -85,9 +87,9 @@ public class ISMSearch extends MVCPortlet {
 				}
 			}
 			else {
-				criteriasId = StringUtil.split(preferences.getValue("criteriasId" + categoryId, "")); // Get
-																									  // selected
-																									  // criterias
+				criteriasId = preferences.getValues("criteriasId" + categoryId, emptyStringArray); // Get
+																				  				   // selected
+																								   // criterias
 			}
 
 			// According to the display type, get the ID of the categories to
@@ -108,11 +110,13 @@ public class ISMSearch extends MVCPortlet {
 				// Add selected categories
 				strSelectedCategories.addAll(strSelectedCategoriesNW);
 			}
-			else if (displayType.equals("checkbox")) {
-				for (int j = 0; j < criteriasId.length; j++) {
-					if (actionRequest.getParameter("checkbox" + criteriasId[j]).equals("true")) {
-						// Add selected category
-						strSelectedCategories.add(criteriasId[j]);
+			else if (displayType.equals("checkbox") && criteriasId.length>0 ) {
+				if(!onlyNonEmpty){ // Added by Mpower-Abdul to check only display non empty option is checked or unchecked
+					for (int j = 0; j < criteriasId.length; j++) {
+						if (actionRequest.getParameter("checkbox" + criteriasId[j]).equals("true")) {
+							// Add selected category
+							strSelectedCategories.add(criteriasId[j]);
+						}
 					}
 				}
 			}
@@ -120,10 +124,11 @@ public class ISMSearch extends MVCPortlet {
 
 		// Convert String ID list to long ID array
 		long[] selectedCategories = ISMSearchUtil.convertStringsToLongs(strSelectedCategories);
+		PortletSession portletSession=actionRequest.getPortletSession();
 
-		actionRequest.setAttribute("selectedCategories", selectedCategories);
-		actionRequest.setAttribute("keywords", actionRequest.getParameter("keywords"));
-		actionRequest.setAttribute(Constants.CMD, cmd);
+		portletSession.setAttribute("selectedCategories", selectedCategories);
+		portletSession.setAttribute("keywords", actionRequest.getParameter("keywords"));
+		portletSession.setAttribute(Constants.CMD, cmd);
 
 	}
 
