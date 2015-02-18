@@ -7,6 +7,7 @@ import com.liferay.portal.kernel.util.Constants;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.util.PortletKeys;
 import com.liferay.portlet.asset.model.AssetCategory;
 import com.liferay.portlet.asset.service.AssetCategoryLocalServiceUtil;
 import com.liferay.util.bridges.mvc.MVCPortlet;
@@ -125,7 +126,6 @@ public class ISMSearch extends MVCPortlet {
 		// Convert String ID list to long ID array
 		long[] selectedCategories = ISMSearchUtil.convertStringsToLongs(strSelectedCategories);
 		PortletSession portletSession=actionRequest.getPortletSession();
-
 		portletSession.setAttribute("selectedCategories", selectedCategories);
 		portletSession.setAttribute("keywords", actionRequest.getParameter("keywords"));
 		portletSession.setAttribute(Constants.CMD, cmd);
@@ -162,6 +162,5 @@ public class ISMSearch extends MVCPortlet {
 
 		PrintWriter writer = resourceResponse.getWriter();
 		writer.write(jsonObject.toString());
-
 	}
 }

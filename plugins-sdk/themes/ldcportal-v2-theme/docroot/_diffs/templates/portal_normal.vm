@@ -6,10 +6,11 @@
 
 <head>
 	<title>$the_title - $company_name</title>
+	
+	<meta property="og:image" content="http://esango.un.org$images_folder/custom/main_social_caption.jpg" />
 
 	$theme.include($top_head_include)
 	
-	<meta property="og:image" content="http://esango.un.org$images_folder/custom/main_social_caption.jpg" />
 </head>
 
 <body class="$css_class">
@@ -33,6 +34,7 @@ $create_account_url.setParameter("struts_action", "/login/create_account")
 		#parse ("$full_templates_path/un_brandbar.vm")
 		
 		<div id="topbar">
+			$theme.runtime("82")
 			#if (!$is_signed_in)
 			<span class="sign-in-link">			
 				<a href="$sign_in_url" id="sign-in" rel="nofollow">$sign_in_text</a>			
@@ -44,16 +46,18 @@ $create_account_url.setParameter("struts_action", "/login/create_account")
 			<span class="sign-out-link">
 			<a href="$sign_out_url">$sign_out_text</a>
 			</span>
-			<span class="dashboard-link 
+			<span class="dashboard-link">
 			
 			#if ($page_group.isControlPanel())
 				dashboard-selected
 			#end
-			
-			">
-				<a href="$my_account_url">$languageUtil.format($locale, "my-dashboard")</a>
+
+			<a href="$my_account_url">$languageUtil.format($locale, "my-dashboard")</a>
 			</span>
 			#end
+			<div id="main-search">
+				$theme.search()
+			</div>
 		</div>
 		<a href="$themeDisplay.getURLHome()">
 			<div id="portal-banner">
@@ -86,14 +90,14 @@ $create_account_url.setParameter("struts_action", "/login/create_account")
 			$portletDisplay.setTitle($the_title)
 
 			$theme.wrapPortlet("portlet.vm", $content_include)
-	#end
+		#end
 	</div>
 
 	<footer id="footer" role="contentinfo">
 		<ul>
-			#if ($has_navigation)
+			##if ($has_navigation)
 				#parse("$full_templates_path/footer.vm")
-			#end
+			##end
 		</ul>
 	</footer>
 </div>

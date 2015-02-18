@@ -18,14 +18,6 @@
 		cssClass = "no-display masterCategory" + displayFor;
 	}
 
-	//HashMap<Long, Set<Long>> nonEmptyCategories = new HashMap<Long, Set<Long>>();
-
-	// Get non empty categories only if the "Only Non Empty" option was selected in Configuration
-// 	if (onlyNonEmpty) {
-// 		// 		nonEmptyCategories = ISMSearchUtil.getNonEmptyCategories(scopeGroupId, categoryId, masterCategoryId);
-// 		criteriasId = ISMSearchUtil.getNonEmptyCategories(ismCategoryId, criteriasId);
-// 	}
-
 	String criteriaCssClass = "";
 
 	String categoryTitle = category.getTitle(locale);
@@ -66,6 +58,7 @@
 						if (selectedCategories != null && Arrays.binarySearch(selectedCategories, criteriaId) >= 0) {
 							checkboxValue = true;
 						}
+						
 						%>
 						
 			<aui:input type="checkbox" name='<%= "checkbox" + criteriaId %>'
@@ -78,9 +71,7 @@
 				else {
 					for (int j = 0; j < criteriasId.length; j++) {
 						long criteriaId = Long.valueOf(criteriasId[j]);
-	
 						AssetCategory criteria = AssetCategoryLocalServiceUtil.getCategory(criteriaId);
-	
 						boolean checkboxValue = false;
 						if (selectedCategories != null && Arrays.binarySearch(selectedCategories, criteriaId) >= 0) {
 							checkboxValue = true;

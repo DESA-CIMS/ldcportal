@@ -12,12 +12,13 @@
  */
 --%>
 
+<%@page import="java.util.Collection"%>
 <%@include file="/init.jsp"%>
 
 <%
 	int nbAssetVocabularies = AssetVocabularyLocalServiceUtil.getAssetVocabulariesCount();
 	List<AssetVocabulary> assetVocabularyList =
-		AssetVocabularyLocalServiceUtil.getAssetVocabularies(0, nbAssetVocabularies);
+	AssetVocabularyLocalServiceUtil.getAssetVocabularies(0, nbAssetVocabularies);
 %>
 
 <liferay-portlet:actionURL portletConfiguration="true" var="configurationActionURL" />
@@ -67,7 +68,7 @@
 							if (vocabularyId != 0) {
 								int nbCategories = AssetCategoryLocalServiceUtil.getVocabularyCategoriesCount(vocabularyId);
 								availableCategories =
-									AssetCategoryLocalServiceUtil.getVocabularyRootCategories(vocabularyId, 0, nbCategories, null);
+								AssetCategoryLocalServiceUtil.getVocabularyRootCategories(vocabularyId, 0, nbCategories, null);
 			%>
 
 			<aui:select name="preferences--masterCategoryId--" label="master-category">
@@ -83,42 +84,43 @@
 				%>
 			</aui:select>
 
-
-
-			<aui:input name="preferences--categoriesId--" type="hidden" />
-
 			<%
-				// Left list
-								List<KeyValuePair> leftList = new ArrayList<KeyValuePair>();
+							// Left list
+							List<KeyValuePair> leftList = new ArrayList<KeyValuePair>();
 
-								for (int i = 0; i < categoriesId.length; i++) {
-									String categoryId = categoriesId[i];
+							for (int i = 0; i < categoriesId.length; i++) {
+								String categoryId = categoriesId[i];
 
-									leftList.add(new KeyValuePair(categoryId, AssetCategoryLocalServiceUtil.getCategory(
-										Integer.valueOf(categoryId)).getTitle(locale)));
+								leftList.add(new KeyValuePair(categoryId, AssetCategoryLocalServiceUtil.getCategory(
+									Integer.valueOf(categoryId)).getTitle(locale)));
+							}
+
+							// Right list
+							List<KeyValuePair> rightList = new ArrayList<KeyValuePair>();
+							String[] sortedCategoriesId = Arrays.copyOf(categoriesId, categoriesId.length);
+							Arrays.sort(sortedCategoriesId);
+							Iterator<AssetCategory> itr = availableCategories.iterator();
+
+							while (itr.hasNext()) {
+								AssetCategory category = itr.next();
+								String categoryId = String.valueOf(category.getCategoryId());
+
+								if (Arrays.binarySearch(sortedCategoriesId, categoryId) < 0) {
+									rightList.add(new KeyValuePair(categoryId, category.getTitle(locale)));
 								}
-
-								// Right list
-								List<KeyValuePair> rightList = new ArrayList<KeyValuePair>();
-								String[] sortedCategoriesId = Arrays.copyOf(categoriesId, categoriesId.length);
-								Arrays.sort(sortedCategoriesId);
-								Iterator<AssetCategory> itr = availableCategories.iterator();
-
-								while (itr.hasNext()) {
-									AssetCategory category = itr.next();
-									String categoryId = String.valueOf(category.getCategoryId());
-
-									if (Arrays.binarySearch(sortedCategoriesId, categoryId) < 0) {
-										rightList.add(new KeyValuePair(categoryId, category.getTitle(locale)));
-									}
-								}
-
-								rightList = ListUtil.sort(rightList, new KeyValuePairComparator(false, true));
+							}
+							rightList = ListUtil.sort(rightList, new KeyValuePairComparator(false, true));
 			%>
 
-			<liferay-ui:input-move-boxes leftTitle="current" rightTitle="available"
-				leftBoxName="currentCategoriesId" rightBoxName="availableCategoriesId"
-				leftReorder="true" leftList="<%= leftList %>" rightList="<%= rightList %>" />
+			<liferay-ui:input-move-boxes cssClass="move-arrow-buttons"
+										 leftTitle="current" 
+										 rightTitle="available"
+										 leftBoxName="currentCategoriesId" 
+										 rightBoxName="availableCategoriesId"
+										 leftReorder="true" 
+										 leftList="<%= leftList %>" 
+										 rightList="<%= rightList %>"
+										 rightReorder="true" />
 			<%
 				}
 			%>
@@ -131,8 +133,10 @@
 		<%
 			for (int i = 0; i < categoriesId.length; i++) {
 						long categoryId = Long.valueOf(categoriesId[i]);
-						AssetCategory category = AssetCategoryLocalServiceUtil.getCategory(categoryId);
-
+						
+						AssetCategory category=null;
+						category = AssetCategoryLocalServiceUtil.getCategory(categoryId);
+	
 						// Get preferences
 						String displayType = GetterUtil.getString(preferences.getValue("displayType" + categoryId, ""));
 
@@ -143,8 +147,7 @@
 
 						int displayFor = GetterUtil.getInteger(preferences.getValue("displayFor" + categoryId, null));
 
-						String[] criteriasId =
-							StringUtil.split(preferences.getValue("criteriasId" + category.getCategoryId(), ""));
+						String[] criteriasId =preferences.getValues("criteriasId" + category.getCategoryId(), emptyStringArray);
 
 						// Define panel title
 						String panelTitle =
@@ -160,10 +163,10 @@
 
 						for (int j = 0; j < criteriasId.length; j++) {
 							String criteriaId = criteriasId[j];
-
 							leftList.add(new KeyValuePair(criteriaId, AssetCategoryLocalServiceUtil.getCategory(
 								Integer.valueOf(criteriaId)).getTitle(locale)));
 						}
+						
 
 						// Right list
 						List<KeyValuePair> rightList = new ArrayList<KeyValuePair>();
@@ -223,14 +226,20 @@
 				name='<%= "preferences--onlyNonEmpty" + category.getCategoryId() + "--" %>'
 				type="checkbox" label="only-display-non-empty" checked="<%= onlyNonEmpty %>" />
 
-			<aui:input name='<%= "preferences--criteriasId" + category.getCategoryId() + "--" %>'
-				type="hidden" />
+			<%-- <aui:input name='<%= "preferences--criteriasId" + category.getCategoryId() + "--" %>'
+				type="hidden" /> --%>
 
 			<c:if test="<%= depth != 0 && onlyNonEmpty == false %>">
-				<liferay-ui:input-move-boxes leftTitle="current" rightTitle="available"
+				<liferay-ui:input-move-boxes 
+					leftTitle="current" 
+					rightTitle="available"
 					leftBoxName='<%= "currentCriteriasId" + categoriesId[i] %>'
-					rightBoxName='<%= "availableCriteriasId" + categoriesId[i] %>' leftReorder="true"
-					leftList="<%= leftList %>" rightList="<%= rightList %>" />
+					rightBoxName='<%= "availableCriteriasId" + categoriesId[i] %>' 
+					leftReorder="true"
+					leftList="<%= leftList %>" 
+					rightList="<%= rightList %>"
+					rightReorder="true"
+					/>
 			</c:if>
 
 		</liferay-ui:panel>
@@ -244,38 +253,25 @@
 
 
 	<aui:button-row>
-		<aui:button onClick='<%= renderResponse.getNamespace() + "onSubmit();" %>' type="submit" />
+		<aui:button onClick="selectAll('_86_currentCategoriesId',true)" type="submit"/>
 	</aui:button-row>
 </aui:form>
 
+<script>
 
-<%-- Necessary sripts for the input-move-boxes liferay-ui taglib --%>
-<aui:script>
-Liferay.provide(
-       window,
-       '<portlet:namespace />onSubmit',
-       function()  {	  
-		    document.<portlet:namespace />fm.<portlet:namespace />categoriesId.value = 
-		    	Liferay.Util.listSelect(document.<portlet:namespace />fm.<portlet:namespace />currentCategoriesId);	
-		    	
-		    	alert(document.<portlet:namespace />fm.<portlet:namespace />categoriesId.value);	    
-		    <%
-	for (String categoryId : categoriesId) {
-%>	
-		    document.<portlet:namespace />fm.<portlet:namespace />criteriasId<%=categoryId%>.value = 
-		    	Liferay.Util.listSelect(document.<portlet:namespace />fm.<portlet:namespace />currentCriteriasId<%=categoryId%>);
-		    	
-		    	
-	    	<%
-	}
-%>
-			submitForm(document.<portlet:namespace />fm);
-	},
-	['liferay-util-list-fields']
-);
+	function selectAll(selectBox2,selectAll) {
+	   selectBox2 = document.getElementById(selectBox2);
+	   for (var i = 0; i < selectBox2.options.length; i++) {
+	       selectBox2.options[i].selected = selectAll;
+	       var name="_86_currentCriteriasId"+selectBox2.options[i].value;
+	       var selectSubBox=document.getElementById(name);
+	       if(selectSubBox != null){
+	        for(var j = 0; j < selectSubBox.options.length; j++){
+	        	selectSubBox.options[j].selected = selectAll;
+	        } 
+	  		}
+	   }
+	} 
+</script>
 
 
-</aui:script>
-<%
-//http://esango.un.org/ldcportal/combo/?browserId=other&minifierType=&languageId=en_US&b=6100&t=1353354803800&p=/ldcportal/html/js&m=/liferay/util_list_fields.js
-%>

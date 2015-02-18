@@ -19,15 +19,13 @@
 <aui:form name="fm" action="<%= searchURL.toString() %>" method="post">
 
 	<aui:input name="<%=Constants.CMD%>" value="<%=Constants.UPDATE%>" type="hidden" />
-	<aui:input type="hidden" name="categoriesId"
-		value='<%= preferences.getValue("categoriesId", "") %>' />
 
 	<%
 		// Get keywords input by users
-			String keywords = (String) request.getAttribute("keywords");
+			String keywords = (String) portletSession.getAttribute("keywords");
 			if (keywords == null || keywords.isEmpty()) {
 				keywords = StringPool.BLANK;
-				// 				keywords = LanguageUtil.get(pageContext, "search-term");
+				// keywords = LanguageUtil.get(pageContext, "search-term");
 			}
 
 			String resetScript = renderResponse.getNamespace() + "resetAllNWText()";
@@ -45,6 +43,7 @@
 			<aui:fieldset>
 				<%
 					//	For each main category, display it through dispaly_category_filter.jspf
+					
 							for (int i = 0; i < categoriesId.length; i++) {
 								int categoryId = Integer.valueOf(categoriesId[i]);
 								AssetCategory category = AssetCategoryLocalServiceUtil.getCategory(categoryId);
@@ -59,8 +58,8 @@
 
 								int displayFor = GetterUtil.getInteger(preferences.getValue("displayFor" + categoryId, null));
 
-								String[] criteriasId =
-									StringUtil.split(preferences.getValue("criteriasId" + category.getCategoryId(), ""));
+								String[] criteriasId =preferences.getValues("criteriasId" + category.getCategoryId(), emptyStringArray);
+								Arrays.sort(criteriasId);
 				%>
 				<%@include file="/display_category_filter.jspf"%>
 
@@ -109,7 +108,7 @@
 
 									SearchContext searchContext = SearchContextFactory.getInstance(request);
 
-									//searchContext.setCategoryIds(selectedCategories); // Somehow this does not work, must be a Liferay bug
+									searchContext.setAssetCategoryIds(selectedCategories); // Somehow this does not work, must be a Liferay bug
 									searchContext.setKeywords(keywords);
 
 									// Get all subgroup ids for search								
@@ -128,7 +127,6 @@
 									}
 
 									searchContext.setGroupIds(groupIds);
-
 									// searchContext.setAndSearch(true);  //This bugs too
 
 									// Get results
@@ -229,12 +227,6 @@
 		</div>
 	</div>
 </aui:form>
-
-<%-- <portlet:actionURL name="searchNewWindow" var="testURL" --%>
-<%-- 	windowState="<%=LiferayWindowState.EXCLUSIVE.toString() %>"> --%>
-<%-- 	<portlet:param name="category" value="test" /> --%>
-<%-- </portlet:actionURL> --%>
-
 
 <aui:script>
 

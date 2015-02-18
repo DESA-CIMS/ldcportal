@@ -21,7 +21,7 @@
 	int categoryId = Integer.valueOf(request.getParameter("categoryId"));	
 	
 	// Retrieve criteria list
-	String[] criteriasId = StringUtil.split(preferences.getValue("criteriasId" + categoryId, ""));
+	String[] criteriasId = preferences.getValues("criteriasId" + categoryId, emptyStringArray);
 
 	ArrayList<String> categoryList = new ArrayList<String>();
 	String strCategoryList = StringPool.BLANK;

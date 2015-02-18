@@ -94,6 +94,7 @@
 	PortletMode portletMode = null;
 
 	PortletURL currentURLObj = null;
+	String emptyStringArray []=new String [0]; 
 
 	if (renderRequest != null) {
 		windowState = renderRequest.getWindowState();
@@ -111,8 +112,8 @@
 	String currentURL = currentURLObj.toString();
 
 	String redirect = ParamUtil.getString(request, "redirect");
-	String cmd = (String) request.getAttribute(Constants.CMD);
-
+	String cmd = (String) portletSession.getAttribute(Constants.CMD);
+	
 	// Preferences
 	PortletPreferences preferences = renderRequest.getPreferences();
 	String portletResource = ParamUtil.getString(request, "portletResource");
@@ -127,10 +128,9 @@
 		masterChildCategories = AssetCategoryLocalServiceUtil.getChildCategories(masterCategoryId);
 	}
 	int ismCategoryId = GetterUtil.getInteger((preferences.getValue("ismCategoryId", null)));
-	String[] categoriesId = StringUtil.split(preferences.getValue("categoriesId", ""));
-	long[] selectedCategories = (long[]) request.getAttribute("selectedCategories");
+	String[] categoriesId = preferences.getValues("categoriesId", emptyStringArray);
+	long[] selectedCategories = (long[]) portletSession.getAttribute("selectedCategories");
 	long[] allSelectedCategories;
-	
 	if (selectedCategories == null) {
 		allSelectedCategories = new long[1];
 		allSelectedCategories[0] = ismCategoryId;
@@ -140,12 +140,10 @@
 		System.arraycopy(selectedCategories, 0, allSelectedCategories, 0, selectedCategories.length);
 		allSelectedCategories[selectedCategories.length] = ismCategoryId;
 	}
-
-
 	
-// 	if (selectedCategories != null) {
-// 		Arrays.sort(selectedCategories);
-// 	}
+	if (Validator.isNotNull(selectedCategories)) {
+	Arrays.sort(selectedCategories);
+	}
 
 	// Init
 	String allNWCategoryIds = "";
