@@ -14,6 +14,9 @@
 
 <%@include file="/init.jsp"%>
 
+
+
+
 <%
 	int nbAssetVocabularies = AssetVocabularyLocalServiceUtil.getAssetVocabulariesCount();
 	List<AssetVocabulary> assetVocabularyList =
