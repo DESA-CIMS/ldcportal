@@ -11,7 +11,6 @@
  *
  */
 --%>
-
 <%@page import="java.util.Collection"%>
 <%@include file="/init.jsp"%>
 
