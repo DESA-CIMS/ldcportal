@@ -1,7 +1,7 @@
 ## Used to hide footer items from the main menu
-
+#set ($mainGroupId1 = $getterUtil.getLong('10179')) 
 #set($layoutLocalServiceUtil = $serviceLocator.findService("com.liferay.portal.service.LayoutLocalService"))
-#set($topPublicLayouts = $layoutLocalServiceUtil.getLayouts($layout.getGroupId(), false))
+#set($topPublicLayouts = $layoutLocalServiceUtil.getLayouts($mainGroupId1, false))
 
 #foreach ($lay_item in $topPublicLayouts)
 	#if ($lay_item.isHidden() && $lay_item.getFriendlyURL() == "/footer")
@@ -13,11 +13,17 @@
 			#end
 
 			<li class="$nav_child_class">
-				<a href="$company_url$nav_child.getFriendlyURL()"><span>$nav_child.getName()</span></a> 
+				<a href="$company_url$nav_child.getFriendlyURL()"><span>$nav_child.getName($locale)</span></a> 
 				#if ($velocityCount != $lay_item.getChildren().size()) 
 					&nbsp; | &nbsp
 				#end
-			</li>                                
+			</li>                                 
 		#end
+	#end
+	#if ($lay_item.getFriendlyURL() == "/portal-help")
+		<li class="$nav_child_class">
+			&nbsp; | &nbsp
+			<a href="$company_url/portal-help"><span> $lay_item.getName($locale)</span></a> 
+		</li>
 	#end
 #end

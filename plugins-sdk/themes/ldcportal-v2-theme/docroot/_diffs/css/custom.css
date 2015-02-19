@@ -123,14 +123,18 @@ h3 {
 	font-size: 15px;
 }
 
-#main-search {
-	float: right;
-	margin-right: 7px;
-	margin-top: 4px;
+#main-search,  #main-search form{
+	margin-left: 8px;
+	display: inline;
 }
 
 #main-search select {
 	display: none;
+}
+
+#main-search input[type="text"] {
+	padding: 3px 1px 2px 1px;
+	margin-top: 1px;
 }
 
 #main-search .search-text-container {
@@ -185,7 +189,6 @@ h3 {
 	background: #48A7E2 url(../images/custom/gradated-background.png)
 		repeat-y 0 0;
 	display: block;
-	height: 19px;
 }
 
 #footer ul {
@@ -685,3 +688,9 @@ tr.portlet-section-header.results-header {
 	margin-top: 1px;
 	vertical-align: top;
 }
+
+#topbar .portlet-language {
+	display: inline;
+	float: left;
+}
+

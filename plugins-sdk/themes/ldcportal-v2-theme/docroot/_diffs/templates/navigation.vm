@@ -24,17 +24,8 @@
 	 #set ($newNavItems = $navItemClass.fromLayouts($requestVars, $newMainLayouts))
 	 #set ($nav_items = $newNavItems)
 #end
-  
-
-
 
 <nav class="$nav_css_class" id="navigation">
-		
-	<div id="main-search">
-		$theme.search()
-	</div>
-	
-	
 	<ul>
 		#foreach ($nav_item in $nav_items)
 			#if ($nav_item.isSelected())
@@ -46,8 +37,4 @@
 			</li>
 		#end
 	</ul>
-
-	
-
-
 </nav>
