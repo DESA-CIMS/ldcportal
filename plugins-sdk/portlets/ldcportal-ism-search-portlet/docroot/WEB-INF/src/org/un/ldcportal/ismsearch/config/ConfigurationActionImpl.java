@@ -1,13 +1,15 @@
 
 package org.un.ldcportal.ismsearch.config;
 
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.PortletConfig;
-
 import com.liferay.portal.kernel.portlet.DefaultConfigurationAction;
 import com.liferay.portal.kernel.util.Constants;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portlet.PortletPreferencesFactoryUtil;
+
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+import javax.portlet.PortletConfig;
+import javax.portlet.PortletPreferences;
 
 /**
  * 
@@ -27,9 +29,18 @@ public class ConfigurationActionImpl extends DefaultConfigurationAction {
 		throws Exception {
 
 		String cmd = ParamUtil.getString(actionRequest, Constants.CMD);
-		
 		if (cmd.equals(Constants.UPDATE)) {
-			// Store preferences
+			//Store preferences
+			String selectedCategoriesIds[] = ParamUtil.getParameterValues(actionRequest, "currentCategoriesId");
+			String portletResource = ParamUtil.getString(actionRequest, "portletResource");
+			PortletPreferences preferences = PortletPreferencesFactoryUtil.getPortletSetup(actionRequest, portletResource);
+			preferences.setValues("categoriesId", selectedCategoriesIds);
+			for(int i=0;i<selectedCategoriesIds.length;i++)
+			{
+				String selectedCriteriasIds[] = ParamUtil.getParameterValues(actionRequest, "currentCriteriasId"+selectedCategoriesIds[i]);
+				preferences.setValues("criteriasId"+selectedCategoriesIds[i],selectedCriteriasIds );
+			}
+			preferences.store();
 			super.processAction(portletConfig, actionRequest, actionResponse);	
 		}
 	}
