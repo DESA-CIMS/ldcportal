@@ -3,7 +3,7 @@
  *
  * ISM Search Portlet
  * United Nations Support Measures Portal v2
- * http://www.un.org/ldcportal 
+ * http://www.un.org/ldcportal  
  *
  * Used for the configuration page of the ISM Search Portlet
  * 
