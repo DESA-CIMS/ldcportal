@@ -22,7 +22,10 @@ page import="com.liferay.portal.kernel.repository.model.FileEntry" %><%@
 page import="com.liferay.portal.kernel.search.Hits" %><%@
 page import="com.liferay.portal.kernel.xml.Document" %><%@
 page import="com.liferay.portal.kernel.xml.Element" %><%@
-page import="com.liferay.portal.kernel.xml.SAXReaderUtil" %><%@
+page import="com.liferay.portal.kernel.xml.SAXReaderUtil" %>
+<%@
+page import="com.liferay.portal.kernel.xml.SAXReaderUtil" %>
+<%@
 page import="com.liferay.portal.security.permission.comparator.ModelResourceComparator" %><%@
 page import="com.liferay.portlet.asset.AssetRendererFactoryRegistryUtil" %><%@
 page import="com.liferay.portlet.asset.NoSuchEntryException" %><%@
@@ -57,6 +60,11 @@ page import="com.liferay.portlet.journal.model.JournalStructure" %><%@
 page import="com.liferay.portlet.journal.service.JournalStructureLocalServiceUtil" %><%@
 page import="com.liferay.util.RSSUtil" %><%@
 page import="com.liferay.util.xml.DocUtil" %>
+<%@
+page import="com.liferay.portlet.journal.service.JournalArticleResourceLocalServiceUtil" %>
+<%@
+page import="com.liferay.portlet.journal.model.JournalArticleResource" %>
+
 
 <%@page import="org.un.ldcportal.ismapplications.model.ISM" %>
 <%@page import="org.un.ldcportal.ismapplications.service.ISMLocalServiceUtil" %>

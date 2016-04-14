@@ -18,21 +18,51 @@
 
 <%
 List results = (List)request.getAttribute("view.jsp-results");
-
 int assetEntryIndex = ((Integer)request.getAttribute("view.jsp-assetEntryIndex")).intValue();
-
-AssetEntry assetEntry = (AssetEntry)request.getAttribute("view.jsp-assetEntry");
 AssetRendererFactory assetRendererFactory = (AssetRendererFactory)request.getAttribute("view.jsp-assetRendererFactory");
 AssetRenderer assetRenderer = (AssetRenderer)request.getAttribute("view.jsp-assetRenderer");
-
+AssetEntry assetEntry = (AssetEntry)request.getAttribute("view.jsp-assetEntry");
 boolean show = ((Boolean)request.getAttribute("view.jsp-show")).booleanValue();
-
 request.setAttribute("view.jsp-showIconLabel", true);
 
 String title = (String)request.getAttribute("view.jsp-title");
+String displayPageURL = "";
+Long assetLayoutId = GetterUtil.getLong(preferences.getValue("assetLayoutId",""),0l);
+Layout assetLayout = null;
+try	{
+	assetLayout = LayoutLocalServiceUtil.getLayout(assetLayoutId);
+	String assetLayoutUuid = null;
+	String assetViewId = "";
+	if(assetLayout != null){
+		assetLayoutUuid = assetLayout.getUuid();
+		LayoutTypePortlet ltportlet = (LayoutTypePortlet) assetLayout.getLayoutType();
+		List<Portlet> portlets = ltportlet.getAllPortlets();
+		for (Portlet portlet : portlets) {
+			String pId = portlet.getPortletId();
+			if(pId.contains("101_INSTANCE_")) {
+				String[] aURLSplit = pId.split("_"); 
+				if(aURLSplit.length > 2) {
+					assetViewId = assetViewId + aURLSplit[2];
+					break;
+				}
+			}
 
-if (Validator.isNull(title)) {
-	title = assetRenderer.getTitle(locale);
+		}
+		String fullPath = renderResponse.encodeURL(renderRequest.getContextPath());
+		String curLayoutTitle = "";
+		String[] fullPathSplit = fullPath.split("\\?");
+		String assetLayoutFriendlyURL = assetLayout.getFriendlyURL();
+		String[] curLayoutTitleSplit = fullPathSplit[0].split("/");
+		curLayoutTitle = curLayoutTitleSplit[curLayoutTitleSplit.length - 1];
+		String displayPage = fullPath.split(curLayoutTitle)[0];
+		displayPageURL = displayPageURL + "?" + fullPathSplit[1];
+		String assetTitle = assetRenderer.getUrlTitle();
+		displayPageURL = displayPage + assetLayoutFriendlyURL.substring(1) + "/-/asset_publisher/" + assetViewId + "/content/" + assetTitle;
+		displayPageURL = displayPageURL + "?" + fullPathSplit[1];
+		displayPageURL += "&groupId=" + assetRenderer.getGroupId(); 
+	}
+}catch(Exception ex) {
+	//No display page selected. Will take the default behaviour
 }
 
 PortletURL viewFullContentURL = renderResponse.createRenderURL();
@@ -68,12 +98,12 @@ if (viewInContext) {
 // 		ISM ism = ISMLocalServiceUtil.getISMByWebContentId(assetEntry.getPrimaryKey());
 		
 // 		viewURL = HttpUtil.setParameter(viewURL, "ismKey", ism.getIsmId());		
-// 	}	
+}	
 		
 	if (assetRenderer.getGroupId() != scopeGroupId) {
 		viewURL = HttpUtil.setParameter(viewURL, "groupId", String.valueOf(assetRenderer.getGroupId()));
 	}
-}
+//}
 else {
 	viewURL = viewFullContentURL.toString();
 }
@@ -85,6 +115,9 @@ if (Validator.isNull(viewURL)) {
 String viewURLMessage = viewInContext ? assetRenderer.getViewInContextMessage() : "read-more-x-about-x";
 
 viewURL = _checkViewURL(viewURL, currentURL, themeDisplay);
+if(displayPageURL != null && (!displayPageURL.trim().equals("")) && assetEntry.getClassName().equals("com.liferay.portlet.journal.model.JournalArticle")) {
+ viewURL = displayPageURL;
+}
 %>
 
 <c:if test="<%= show %>">

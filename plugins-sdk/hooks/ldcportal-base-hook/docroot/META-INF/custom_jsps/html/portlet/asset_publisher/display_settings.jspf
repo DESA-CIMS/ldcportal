@@ -219,7 +219,56 @@
 			type="checkbox" value="<%= enableTagBasedNavigation %>" />
 	</c:if>
 </aui:fieldset>
+<aui:fieldset label="Select Display Page">
 
+<%
+
+
+ preferences = renderRequest.getPreferences();
+
+ portletResource = ParamUtil.getString(request, "portletResource");
+
+if (Validator.isNotNull(portletResource)) {
+	preferences = PortletPreferencesFactoryUtil.getPortletSetup(request, portletResource);
+}
+
+String rootLayoutUuid = GetterUtil.getString(preferences.getValue("rootLayoutUuid", StringPool.BLANK));
+int displayDepth = GetterUtil.getInteger(preferences.getValue("displayDepth", StringPool.BLANK));
+boolean includeRootInTree = GetterUtil.getBoolean(preferences.getValue("includeRootInTree", StringPool.BLANK));
+boolean showCurrentPage = GetterUtil.getBoolean(preferences.getValue("showCurrentPage", StringPool.BLANK));
+boolean useHtmlTitle = GetterUtil.getBoolean(preferences.getValue("useHtmlTitle", StringPool.BLANK));
+boolean showHiddenPages = GetterUtil.getBoolean(preferences.getValue("showHiddenPages", StringPool.BLANK));
+String displayPageURL = GetterUtil.getString(preferences.getValue("displayPage", ""));
+String assetLayoutId = GetterUtil.getString(preferences.getValue("assetLayoutId", ""));
+Layout rootLayout = null;
+
+long rootLayoutId = LayoutConstants.DEFAULT_PARENT_LAYOUT_ID;
+
+if (Validator.isNotNull(rootLayoutUuid)) {
+	rootLayout = LayoutLocalServiceUtil.getLayoutByUuidAndGroupId(rootLayoutUuid, scopeGroupId);
+
+	if (rootLayout != null) {
+		rootLayoutId = rootLayout.getLayoutId();
+	}
+}
+else {
+	includeRootInTree = false;
+}
+
+if (rootLayoutId == LayoutConstants.DEFAULT_PARENT_LAYOUT_ID) {
+	includeRootInTree = false;
+}
+List<Layout> rootLayouts = LayoutLocalServiceUtil.getLayouts(layout.getGroupId(), layout.isPrivateLayout(), rootLayoutId);
+
+StringBundler sb = new StringBundler();
+
+_buildSiteMap(layout, rootLayouts, rootLayout, includeRootInTree, displayDepth, showCurrentPage, useHtmlTitle, showHiddenPages, 1, themeDisplay, sb);
+%>
+
+<%= sb.toString() %>
+<aui:input name="preferences--displayPage--" id="displayPage" label="display-page-friendly-url" value="<%=displayPageURL%>" helpMessage="display-page-selection-help" type="text"/>
+<aui:input name="preferences--assetLayoutId--" id="assetLayoutId" type="hidden" value="<%=assetLayoutId%>"/>
+</aui:fieldset>
 <aui:fieldset label="show-metadata">
 	<br />
 
