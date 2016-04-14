@@ -35,7 +35,7 @@ import com.liferay.portal.service.ServiceContextFactory;
 import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.portal.util.PortalUtil;
 import com.liferay.portal.util.PortletKeys;
-import com.liferay.portal.util.WebKeys;
+import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portlet.PortletURLFactoryUtil;
 import com.liferay.portlet.asset.AssetCategoryException;
 import com.liferay.portlet.asset.AssetTagException;
@@ -403,7 +403,7 @@ public class EditMessageAction extends BaseStrutsPortletAction {
 
 		String portletNamespace = PortalUtil.getPortletNamespace(portletId);
 
-		return portletNamespace.concat(WebKeys.PORTLET_STRUTS_FORWARD);
+		return portletNamespace.concat("PORTLET_STRUTS_FORWARD");
 	}
 
 	protected void sendRedirect(ActionRequest actionRequest, ActionResponse actionResponse, String redirect)
