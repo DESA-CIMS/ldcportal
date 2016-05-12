@@ -222,11 +222,6 @@ request.setAttribute("view.jsp-showIconLabel", true);
 <%
 
 java.util.List<com.liferay.portal.model.Layout> lOuts = com.liferay.portal.service.LayoutLocalServiceUtil.getLayouts(0, -1);
-if(lOuts!=null) {
-	for(com.liferay.portal.model.Layout lOut:lOuts) {
-		System.out.println(lOut);
-	}
-}
 %>
 <div class="urlBox">
                 <hr/>
