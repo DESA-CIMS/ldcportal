@@ -219,15 +219,7 @@ request.setAttribute("view.jsp-showIconLabel", true);
 		<div class="final-separator"><!-- --></div>
 	</c:when>
 </c:choose>
-<%
 
-java.util.List<com.liferay.portal.model.Layout> lOuts = com.liferay.portal.service.LayoutLocalServiceUtil.getLayouts(0, -1);
-if(lOuts!=null) {
-	for(com.liferay.portal.model.Layout lOut:lOuts) {
-		System.out.println(lOut);
-	}
-}
-%>
 <div class="urlBox">
                 <hr/>
                  <input id="entryButton" type="button" name="entryURL" value="Entry URL" onClick="toggle(this)" />
